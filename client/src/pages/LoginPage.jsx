@@ -2,7 +2,7 @@ import "./LoginPage.css";
 import { useState } from "react";
 
 const LoginPage = () => {
-  /*const [myform, setForm] = useState({
+  const [myform, setForm] = useState({
     username: "",
     password: "",
   });
@@ -17,7 +17,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("/api/account/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,11 +63,7 @@ const LoginPage = () => {
         </div>
       </section>
     </div>
-  );*/
-
-  return(
-    <div>here</div>
-  )
+  );
 };
 
 export default LoginPage;

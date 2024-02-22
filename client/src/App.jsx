@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div>
-      <Test/>
+      <LoginPage/>
     </div>
   )
 }
