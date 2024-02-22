@@ -2,6 +2,7 @@ import React from "react";
 import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 import Planning from "../components/Planning";
+import "./Home.css";
 
 const Home = () => {
     return (

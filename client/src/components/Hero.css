@@ -1,0 +1,15 @@
+.hero-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-image: url("/client/src/images/background.png"); /* Replace with your image path */
+  background-size: cover; /* Resize image to cover container */
+  background-repeat: no-repeat; /* Prevent image repetition */
+  position: relative; /* Allow layering elements */
+   padding-top:100px;
+   padding-right:500px;
+}
+
+.hero-content {
+  text-align: left;
+}

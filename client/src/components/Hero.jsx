@@ -1,4 +1,5 @@
 import React from 'react';
+import './Hero.css';
 
 function Hero() {
   return (
@@ -6,12 +7,10 @@ function Hero() {
       <div className="hero-content">
         <h1>Get Fit, Get Strong, Get Going</h1>
         <p>
-          Our fitness mobile app helps you achieve your fitness goals with personalized
-          workout plans, expert guidance, and a supportive community. Whether you're
-          a beginner or a seasoned athlete, we have something for everyone.
+          Build healthy habits with the all-in-one food, exercise, and calorie tracker.
         </p>
         <a href="/register" className="btn btn-primary">
-          Register Now
+          Start Today 
         </a>
       </div>
       <div className="hero-image">
