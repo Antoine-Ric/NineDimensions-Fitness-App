@@ -52,6 +52,7 @@ const LoginPage = () => {
               required
             />
             <button type="submit">Log In</button>
+            <button type="button" style={{ marginLeft: '10px' }}>Sign Up</button>
           </form>
         </div>
       </section>
