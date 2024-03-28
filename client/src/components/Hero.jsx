@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import './Hero.css';
 
 function Hero() {
@@ -9,9 +10,10 @@ function Hero() {
         <p>
           Build healthy habits with the all-in-one food, exercise, and calorie tracker.
         </p>
-        <a href="/register" className="btn btn-primary">
+        {/* Use Link instead of anchor tag */}
+        <Link to="/login" className="btn btn-primary">
           Start Today 
-        </a>
+        </Link>
       </div>
       <div className="hero-image">
         {/* Add your fitness app image here */}
@@ -21,3 +23,4 @@ function Hero() {
 }
 
 export default Hero;
+
