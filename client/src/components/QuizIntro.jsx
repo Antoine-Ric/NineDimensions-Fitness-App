@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; 
-import exerciseImageOne from '../images/excercise_image_one.jpg';
 import exerciseImageTwo from '../images/excercise_image_two.jpg';
 import '../styles/QuizIntro.css';
 

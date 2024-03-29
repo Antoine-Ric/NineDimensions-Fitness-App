@@ -15,7 +15,7 @@
   }
 
   .quiz-intro-welcome {
-    font-size: 40px; /* Set the font size */
+    font-size: 50px; /* Set the font size */
     color: #007bff; /* Set the text color for "NineDimensions" */
     text-align: center; /* Center align the text */
     margin-bottom: 20px; /* Add margin at the bottom for spacing */
@@ -23,7 +23,7 @@
   
   .welcome-text {
     color: black; /* Set the text color for "Welcome to" */
-    font-size: 16px; /* Set the font size for "Welcome to" */
+    font-size: 22px; /* Set the font size for "Welcome to" */
   }
   
   .quiz-intro-title {
