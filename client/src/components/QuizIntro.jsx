@@ -1,12 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Assuming you're using react-router-dom for navigation
+import { Link } from 'react-router-dom'; 
+import exerciseImageOne from '../images/excercise_image_one.jpg';
+import exerciseImageTwo from '../images/excercise_image_two.jpg';
+import '../styles/QuizIntro.css';
 
 export default function QuizIntro() {
   return (
-    <div>
-      <h1>Welcome to NineDimensions</h1>
-      <p>Prepare yourself for an exciting quiz experience!</p>
-      <Link to="/wquiz" className="btn btn-primary">
+    <div className="quiz-intro-container">
+      <h1 className="quiz-intro-welcome">
+        <span className="welcome-text">Welcome to</span> <br />
+        <span className="quiz-intro-welcome">NineDimensions</span>
+      </h1>
+      <img src={exerciseImageTwo} alt="Exercise" className="quiz-intro-image" />
+      <p></p>
+      <Link to="/quizquestions" className="btn btn-primary">
         Continue
       </Link>
     </div>

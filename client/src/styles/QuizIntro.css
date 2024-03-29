@@ -1,0 +1,32 @@
+.quiz-intro-container {
+    text-align: center; /* Center align the content */
+  }
+  
+  .quiz-intro-image {
+    border-radius: 10px; /* Make the edges round */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a shadow */
+    width: 80%; /* Adjust image size */
+    max-width: 900px; /* Maximum width for responsiveness */
+    margin: 20px auto; /* Add some margin for spacing */
+  }
+
+  .quiz-intro-container {
+    text-align: center; /* Center align the content */
+  }
+
+  .quiz-intro-welcome {
+    font-size: 40px; /* Set the font size */
+    color: #007bff; /* Set the text color for "NineDimensions" */
+    text-align: center; /* Center align the text */
+    margin-bottom: 20px; /* Add margin at the bottom for spacing */
+  }
+  
+  .welcome-text {
+    color: black; /* Set the text color for "Welcome to" */
+    font-size: 16px; /* Set the font size for "Welcome to" */
+  }
+  
+  .quiz-intro-title {
+    font-size: 40px; /* Set the font size to 24 pixels */
+    color: #007bff;
+  }
