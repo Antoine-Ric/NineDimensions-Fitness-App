@@ -5,6 +5,7 @@ import './App.css';
 import NavBar from './components/NavBar';
 import Home from './pages/Home'; 
 import Login from './pages/Login';
+import QuizIntro from './components/QuizIntro';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route exact path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
+        <Route path = '/quizintro' element={<QuizIntro />} />
       </Routes>
     </Router>
   );
