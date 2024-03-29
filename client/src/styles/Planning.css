@@ -1,5 +1,5 @@
 .planning-container {
-  margin: 50px 0;
+  margin: 12px 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,7 +7,7 @@
 
 .planning-box {
   background-color: #ffffff;
-  padding: 20px;
+  padding: 80px;
   border-radius: 5px;
   text-align: center;
   width: 500px;
@@ -16,6 +16,11 @@
 .planning-title {
   font-size: 2rem;
   margin-bottom: 10px;
+}
+
+.hitting-title {
+  font-size: 2rem;
+  margin-top: 100px;
 }
 
 .planning-description {
@@ -45,4 +50,14 @@
   text-decoration: none;
   font-size: 1.1rem;
   margin-top: 20px;
+}
+
+.image {
+  left: 100px;
+}
+
+.number {
+  color: #007bff; /* Make the text blue */
+  font-size: 3.1em; /* Make the font size bigger */
+  font-weight: bold; /* Make the text bold */
 }

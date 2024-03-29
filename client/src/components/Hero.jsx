@@ -12,9 +12,12 @@ function Hero() {
         <p>
           Build healthy habits with the all-in-one food, exercise, and calorie tracker.
         </p>
+        <p>
+          #1 Nutrition tracking website
+        </p>
         {}
         <Link to="/login" className="btn btn-primary">
-          Start Today 
+          Start Today
         </Link>
       </div>
     </div>

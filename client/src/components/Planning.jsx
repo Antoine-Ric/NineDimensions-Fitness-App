@@ -13,9 +13,23 @@ export default function Planning() { // Updated the function name to Planning
         <Link to="/quizintro" className="btn btn-primary">
           Start Planning Your Journey Today!
         </Link>
-        <h2 className="planning-title">Hitting Your Health Goals</h2>
+        <h2 className="hitting-title">Hitting Your Health Goals</h2>
+        <p className="number blue-bold">1</p>
+        <h2 className="title-subsection">Track food, fitness & fasting</h2>
         <p className="planning-description">
           Personalized nutrition insights reveal what's working so you can make smarter choices. 
+        </p>
+        <br></br>
+        <p className="number blue-bold">2</p>
+        <h2 className="title-subsection">Learn what works</h2>
+        <p className="planning-description">
+          Insightful tutoring and custom lessons from vetted trainers. 
+        </p>
+        <br></br>
+        <p className="number blue-bold">3</p>
+        <h2 className="title-subsection">Change your habits and reach your goals</h2>
+        <p className="planning-description">
+          Personalized metrics that offer insight on how to lead a healthier lifestyle. 
         </p>
       </div>
     </div>
