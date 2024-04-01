@@ -1,15 +1,13 @@
 import React from "react";
-import QuizIntro from "../components/QuizIntro";
-import Footer from "../components/Footer";
-import "./QuizIntro.css";
+import QuizQuestions from "../components/QuizQuestions";
+
 
 const Home = () => {
     return (
         <div className="home-container">
-            <QuizIntro />
-            <Footer />   
+            <QuizQuestions /> 
         </div>
     )
 }
 
-export default WelcomeQuiz;
+export default Home;

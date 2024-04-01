@@ -1,0 +1,230 @@
+import React, { useState } from 'react';
+import '../styles/QuizQuestions.css'; // Import your CSS file for styling
+
+const QuizQuestions = () => {
+    // Define questions and choices
+    const questions = [
+        "What is your first name?",
+        "Thanks! Now for your goals,",
+        "What is your baseline activity level?",
+        "Please select which sex we should use to calculate your calorie needs.",
+        "When were you born?",
+        "Input your body metrics",
+        "Almost there! Create your account"
+    ];
+
+    const goalChoices = ["Lose Weight", "Gain Weight", "Gain Muscle", "Manage Stress"];
+    const activityLevelChoices = ["Not Very Active", "Lightly Active", "Active", "Very Active"];
+    const sexChoices = ["Male", "Female"];
+
+    // State to track current question index, user answers, and user's name
+    const [currentQuestion, setCurrentQuestion] = useState(0);
+    const [answers, setAnswers] = useState(Array(questions.length).fill(''));
+    const [userName, setUserName] = useState('');
+    const [selectedGoals, setSelectedGoals] = useState([]);
+    const [selectedActivityLevel, setSelectedActivityLevel] = useState('');
+    const [selectedSex, setSelectedSex] = useState('');
+    const [birthDate, setBirthDate] = useState('');
+    const [weight, setWeight] = useState('');
+    const [height, setHeight] = useState('');
+    const [goalWeight, setGoalWeight] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+
+    // Function to handle moving to the next question
+    const nextQuestion = () => {
+        if (currentQuestion < questions.length - 1) {
+            setCurrentQuestion(currentQuestion + 1);
+        }
+    };
+
+    // Function to handle moving to the previous question
+    const prevQuestion = () => {
+        if (currentQuestion > 0) {
+            setCurrentQuestion(currentQuestion - 1);
+        }
+    };
+
+    // Function to handle updating user answer
+    const handleAnswerChange = (e) => {
+        const newAnswers = [...answers];
+        newAnswers[currentQuestion] = e.target.value;
+        setAnswers(newAnswers);
+
+        // If current question is the first question (index 0), update userName state
+        if (currentQuestion === 0) {
+            setUserName(e.target.value);
+        }
+    };
+
+    // Function to handle selecting goals
+    const handleGoalSelection = (e) => {
+        const goal = e.target.value;
+        if (selectedGoals.includes(goal)) {
+            setSelectedGoals(selectedGoals.filter(item => item !== goal));
+        } else {
+            setSelectedGoals([...selectedGoals, goal]);
+        }
+    };
+
+    // Function to handle selecting activity level
+    const handleActivityLevelSelection = (e) => {
+        setSelectedActivityLevel(e.target.value);
+    };
+
+    // Function to handle selecting sex
+    const handleSexSelection = (e) => {
+        setSelectedSex(e.target.value);
+    };
+
+    // Function to handle selecting birth date
+    const handleBirthDateChange = (e) => {
+        setBirthDate(e.target.value);
+    };
+
+    // Function to handle weight input
+    const handleWeightChange = (e) => {
+        setWeight(e.target.value);
+    };
+
+    // Function to handle height input
+    const handleHeightChange = (e) => {
+        setHeight(e.target.value);
+    };
+
+    // Function to handle goal weight input
+    const handleGoalWeightChange = (e) => {
+        setGoalWeight(e.target.value);
+    };
+
+    // Function to handle email input
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
+
+    // Function to handle password input
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    };
+
+    // Function to toggle visibility of password input
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    return (
+        <div className="question-card-container">
+            {/* Display current question */}
+            <div className="question-card">
+                <h2>{questions[currentQuestion]} {currentQuestion === 1 && userName}</h2>
+
+                {/* Input field for user's answer or choices for goals */}
+                {currentQuestion === 0 ? (
+                    <input
+                        type="text"
+                        value={answers[currentQuestion]}
+                        onChange={handleAnswerChange}
+                    />
+                ) : currentQuestion === 1 ? (
+                    goalChoices.map((goal, index) => (
+                        <div key={index}>
+                            <input
+                                type="checkbox"
+                                id={goal}
+                                value={goal}
+                                checked={selectedGoals.includes(goal)}
+                                onChange={handleGoalSelection}
+                            />
+                            <label htmlFor={goal}>{goal}</label>
+                        </div>
+                    ))
+                ) : currentQuestion === 2 ? (
+                    activityLevelChoices.map((level, index) => (
+                        <div key={index}>
+                            <input
+                                type="radio"
+                                id={level}
+                                name="activityLevel"
+                                value={level}
+                                checked={selectedActivityLevel === level}
+                                onChange={handleActivityLevelSelection}
+                            />
+                            <label htmlFor={level}>{level}</label>
+                        </div>
+                    ))
+                ) : currentQuestion === 3 ? (
+                    sexChoices.map((sex, index) => (
+                        <div key={index}>
+                            <input
+                                type="radio"
+                                id={sex}
+                                name="sex"
+                                value={sex}
+                                checked={selectedSex === sex}
+                                onChange={handleSexSelection}
+                            />
+                            <label htmlFor={sex}>{sex}</label>
+                        </div>
+                    ))
+                ) : currentQuestion === 4 ? (
+                    <input
+                        type="date"
+                        value={birthDate}
+                        onChange={handleBirthDateChange}
+                    />
+                ) : currentQuestion === 5 ? (
+                    <div>
+                        <input
+                            type="number"
+                            placeholder="Weight (lb)"
+                            value={weight}
+                            onChange={handleWeightChange}
+                        />
+                        <input
+                            type="number"
+                            placeholder="Height (in)"
+                            value={height}
+                            onChange={handleHeightChange}
+                        />
+                        <input
+                            type="number"
+                            placeholder="Goal Weight (lb)"
+                            value={goalWeight}
+                            onChange={handleGoalWeightChange}
+                        />
+                    </div>
+                ) : (
+                    <div>
+                        <input
+                            type="email"
+                            placeholder="Email Address"
+                            value={email}
+                            onChange={handleEmailChange}
+                        />
+                        <div className="password-input">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Create a password"
+                                value={password}
+                                onChange={handlePasswordChange}
+                            />
+                            <button onClick={toggleShowPassword}>{showPassword ? "Hide" : "Show"}</button>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Navigation buttons */}
+            <div>
+                <button onClick={prevQuestion} disabled={currentQuestion === 0} className="nav-button">Previous</button>
+                <button onClick={nextQuestion} disabled={currentQuestion === questions.length - 1} className="nav-button">Next</button>
+            </div>
+        </div>
+    );
+}
+
+export default QuizQuestions;
+
+
+

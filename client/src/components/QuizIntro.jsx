@@ -12,7 +12,7 @@ export default function QuizIntro() {
       </h1>
       <img src={exerciseImageTwo} alt="Exercise" className="quiz-intro-image" />
       <p></p>
-      <Link to="/quizquestions" className="btn btn-primary">
+      <Link to="/welcomequiz" className="btn btn-primary">
         Continue
       </Link>
     </div>

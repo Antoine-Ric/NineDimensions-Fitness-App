@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home'; 
 import Login from './pages/Login';
 import QuizIntro from './components/QuizIntro';
+import WelcomeQuiz from './pages/WelcomeQuiz';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route exact path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path = '/quizintro' element={<QuizIntro />} />
+        <Route path="/welcomequiz" element={<WelcomeQuiz />} />
       </Routes>
     </Router>
   );
