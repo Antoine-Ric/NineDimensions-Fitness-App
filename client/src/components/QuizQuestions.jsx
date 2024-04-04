@@ -113,6 +113,12 @@ const QuizQuestions = () => {
         setShowPassword(!showPassword);
     };
 
+    // Function to handle form submission
+    const handleSubmit = () => {
+        // Perform form submission logic here
+        console.log('Form submitted!');
+    };
+
     return (
         <div className="question-card-container">
             {/* Display current question */}
@@ -217,8 +223,14 @@ const QuizQuestions = () => {
 
             {/* Navigation buttons */}
             <div>
-                <button onClick={prevQuestion} disabled={currentQuestion === 0} className="nav-button">Previous</button>
-                <button onClick={nextQuestion} disabled={currentQuestion === questions.length - 1} className="nav-button">Next</button>
+                {currentQuestion !== questions.length - 1 ? (
+                    <>
+                        <button onClick={prevQuestion} disabled={currentQuestion === 0} className="nav-button">Previous</button>
+                        <button onClick={nextQuestion} className="nav-button">Next</button>
+                    </>
+                ) : (
+                    <button onClick={handleSubmit} className="submit-button">Submit</button>
+                )}
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, session, make_response
 from flask_mysqldb import MySQL
-from bcrypt import checkpw
+from bcrypt import hashpw, gensalt, checkpw
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
@@ -113,6 +113,35 @@ def getInfo(USERID):
         return jsonify({'message': f'Error: {str(e)}'}), 500
     finally:
         cursor.close()
+
+@app.route('/api/account/signup', methods=['POST'])
+def signup():
+    try:
+        conn = mysql.connection
+        new_member = request.get_json()
+        email, password = new_member.get("Email"), new_member.get("Password")
+        firstname, lastname = new_member.get("Firstname"), new_member.get("Lastname")
+
+        # Check if the email already exists in the database
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Member WHERE Email = %s", (email,))
+        existing_user = cursor.fetchone()
+
+        if existing_user:
+            return jsonify({'status_code': 409, 'message': 'Email already exists'}), 409
+
+        # If email is not already in use, proceed with registration
+        hashed_password = hashpw(password.encode('utf-8'), gensalt())
+
+        cursor.execute("INSERT INTO Member (Firstname, Lastname, Email, Password) VALUES (%s, %s, %s, %s)",
+                       (firstname, lastname, email, hashed_password))
+        conn.commit()
+        new_member_id = cursor.lastrowid
+    except Exception as e:
+        conn.rollback()
+        return jsonify({'status_code': 500, 'message': f'Error: {str(e)}'}), 500
+
+    return jsonify({'status_code': 201, 'message': 'User registered successfully', 'ID': new_member_id}), 201
 
 
 if __name__ == '__main__':
