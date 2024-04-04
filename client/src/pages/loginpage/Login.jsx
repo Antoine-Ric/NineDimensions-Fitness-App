@@ -1,11 +1,17 @@
 import "./LoginPage.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [myform, setForm] = useState({
-    username: "",
-    password: "",
+    Email: "",
+    Password: "",
   });
+  const [error, setError] = useState(0);
+
+
 
   const handleChange = (e) => {
     setForm({
@@ -16,6 +22,7 @@ const LoginPage = () => {
 
 
   const handleSubmit = async (e) => {
+     e.preventDefault();
     try {
       const response = await fetch("/api/account/login", {
         method: "POST",
@@ -25,10 +32,17 @@ const LoginPage = () => {
         body: JSON.stringify(myform),
       });
       const data = await response.json();
-      console.log(data);
-      if (data.success) {
+      console.log("hereeeeeee",data);
+      if(data.status_code !== 200){
+        setError(1);
       }
-    } catch (error) {}
+      else{
+        navigate(`/dashboard/${data.ID}`);
+        setError(0);
+      }
+    } catch (error) {
+
+    }
   };
 
   return (
@@ -44,23 +58,19 @@ const LoginPage = () => {
         <div className="login-form">
           <h1 className="member-login">Member Login</h1>
           <form onSubmit={handleSubmit}>
-            <label>Username</label>
-            <input
-              type="text"
-              name="username"
-              onChange={handleChange}
-              required
-            />
+            <label>Email</label>
+            <input type="email" name="Email" onChange={handleChange} required />
             <label>Password</label>
             <input
               type="password"
-              name="password"
+              name="Password"
               onChange={handleChange}
               required
             />
             <button type="submit">Log In</button>
           </form>
         </div>
+        {error === 1 ? <p className="error">Invalid Email or Password</p> :' '}
       </section>
     </div>
   );

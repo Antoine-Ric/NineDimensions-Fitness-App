@@ -1,3 +1,9 @@
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/loginpage/Login.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
+import Profile from "./pages/loginpage/profile.jsx"; 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route }
 from 'react-router-dom';
@@ -11,17 +17,19 @@ import WelcomeQuiz from './pages/WelcomeQuiz';
 
 function App() {
   return (
-    <Router>
+    <Routes>
       <NavBar />
-      <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path = '/quizintro' element={<QuizIntro />} />
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path = '/quizintro' element={<QuizIntro />} />
         <Route path="/welcomequiz" element={<WelcomeQuiz />} />
-      </Routes>
-    </Router>
+      {/*add more public routes here*/}
+      <Route element={<PrivateRoute />}>
+        <Route path="/dashboard/:ID" element={<Dashboard />} />
+        <Route path="/profile/:ID" element={<Profile />} />
+      </Route>
+    </Routes>
   );
 }
 
-export default App;
-
+export default App
