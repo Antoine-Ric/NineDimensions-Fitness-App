@@ -9,18 +9,7 @@
   background-color: #f2f2f2;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 12vh;
-  padding: 1rem;
-  text-align: center;
-  color: white;
-  background-color: #0000ff;
-  color: #fff;
-  padding: 1rem;
-}
+
 .header-login-signup {
   display: flex;
   gap: 20px;

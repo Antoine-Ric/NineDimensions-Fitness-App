@@ -47,13 +47,6 @@ const LoginPage = () => {
 
   return (
     <div className="loginpage">
-      <header>
-        <h1 style={{ cursor: "pointer" }}>Nine-Dimensions-Fitness-APP</h1>
-        <div className="header-login-signup">
-          <h2 style={{ cursor: "pointer" }}>Log In</h2>
-          <h2 style={{ cursor: "pointer" }}>Sign Up</h2>
-        </div>
-      </header>
       <section className="login-form-section">
         <div className="login-form">
           <h1 className="member-login">Member Login</h1>
