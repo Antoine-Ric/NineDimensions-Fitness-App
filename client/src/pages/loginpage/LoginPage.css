@@ -78,3 +78,10 @@ button:hover {
 .member-login {
     margin-left: 2.5rem;
 }
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: center;
+}
