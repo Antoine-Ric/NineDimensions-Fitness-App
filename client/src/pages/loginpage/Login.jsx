@@ -20,6 +20,10 @@ const LoginPage = () => {
     });
   };
 
+  const handleCoachLoginClick = () => {
+    navigate("/coachlogin");
+  }
+
 
   const handleSubmit = async (e) => {
      e.preventDefault();
@@ -62,8 +66,9 @@ const LoginPage = () => {
             />
             <button type="submit">Log In</button>
           </form>
+          <button onClick={handleCoachLoginClick}>Coach Login</button>
         </div>
-        {error === 1 ? <p className="error">Invalid Email or Password</p> :' '}
+        {error === 1 ? <p className="error">Invalid Email or Password</p> : " "}
       </section>
     </div>
   );

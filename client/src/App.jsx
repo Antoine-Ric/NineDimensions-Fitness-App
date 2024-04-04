@@ -10,17 +10,18 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home.jsx'; 
 import QuizIntro from './components/QuizIntro';
 import WelcomeQuiz from './pages/WelcomeQuiz';
+import CoachLogin from "./pages/loginpage/CoachLogin.jsx";
 
 
 function App() {
   return (
     <Routes>
-      
       <Route element={<Layout />}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Home />} />
         <Route path="/quizintro" element={<QuizIntro />} />
         <Route path="/welcomequiz" element={<WelcomeQuiz />} />
+        <Route path="/coachlogin" element={<CoachLogin />} />
       </Route>
 
       {/* Private Routes within PrivateRoute for authentication check */}
