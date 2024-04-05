@@ -10,7 +10,7 @@ try:
     if connection.is_connected():
         print("Sucess!")
     
-except _mysql_connector.Error as e:
+except ms.Error as e:
     print("Error", e)
 
 
