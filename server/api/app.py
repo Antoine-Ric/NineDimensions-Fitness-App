@@ -23,7 +23,7 @@ app.config['MYSQL_DB'] = HOST_DATABASE
 app.config['MYSQL_CURSORCLASS'] = CURSOR_CLASS
 
 mysql = MySQL(app)
-
+app = Flask(__name__)
 
 @app.route('/api/test', methods=['GET'])
 def get_data():
@@ -119,8 +119,20 @@ def signup():
     try:
         conn = mysql.connection
         new_member = request.get_json()
-        email, password = new_member.get("Email"), new_member.get("Password")
-        firstname, lastname = new_member.get("Firstname"), new_member.get("Lastname")
+        
+        # Extracting values from the JSON payload
+        email = new_member.get("email")
+        password = new_member.get("password")
+        firstname = new_member.get("firstname")
+        lastname = new_member.get("lastname")
+        userName = new_member.get("userName")
+        selectedGoals = new_member.get("selectedGoals")
+        selectedActivityLevel = new_member.get("selectedActivityLevel")
+        selectedSex = new_member.get("selectedSex")
+        birthDate = new_member.get("birthDate")
+        weight = new_member.get("weight")
+        height = new_member.get("height")
+        goalWeight = new_member.get("goalWeight")
 
         # Check if the email already exists in the database
         cursor = conn.cursor()
@@ -133,8 +145,8 @@ def signup():
         # If email is not already in use, proceed with registration
         hashed_password = hashpw(password.encode('utf-8'), gensalt())
 
-        cursor.execute("INSERT INTO Member (Firstname, Lastname, Email, Password) VALUES (%s, %s, %s, %s)",
-                       (firstname, lastname, email, hashed_password))
+        cursor.execute("INSERT INTO Member (Firstname, Lastname, Email, Password, UserName, SelectedGoals, SelectedActivityLevel, SelectedSex, BirthDate, Weight, Height, GoalWeight) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                       (firstname, lastname, email, hashed_password, userName, selectedGoals, selectedActivityLevel, selectedSex, birthDate, weight, height, goalWeight))
         conn.commit()
         new_member_id = cursor.lastrowid
     except Exception as e:
@@ -143,6 +155,5 @@ def signup():
 
     return jsonify({'status_code': 201, 'message': 'User registered successfully', 'ID': new_member_id}), 201
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

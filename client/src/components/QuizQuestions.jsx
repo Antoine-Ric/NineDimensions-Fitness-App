@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import '../styles/QuizQuestions.css'; // Import your CSS file for styling
+import '../styles/QuizQuestions.css';
+import { useNavigate } from "react-router-dom";
 
 const QuizQuestions = () => {
+    const navigate = useNavigate();
     // Define questions and choices
     const questions = [
         "What is your first name?",
@@ -114,9 +116,35 @@ const QuizQuestions = () => {
     };
 
     // Function to handle form submission
-    const handleSubmit = () => {
-        // Perform form submission logic here
-        console.log('Form submitted!');
+    const handleSubmit = async () => {
+        try {
+            const response = await fetch("/api/account/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    userName,
+                    selectedGoals,
+                    selectedActivityLevel,
+                    selectedSex,
+                    birthDate,
+                    weight,
+                    height,
+                    goalWeight,
+                    email,
+                    password,
+                }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                navigate(`/dashboard/${data.ID}`);
+            } else {
+                // Handle error
+            }
+        } catch (error) {
+            // Handle error
+        }
     };
 
     return (
