@@ -46,6 +46,45 @@ MemberID char(15),
 CoachID char(15)
 );
 
+INSERT INTO Coach (
+    ID,
+    FullName,
+    Email,
+    Password,
+    DateOfBirth
+) VALUES (
+    'C001',
+    'Alice Brown',
+    'alice@example.com',
+    'password123',
+    '1980-04-01'
+);
+INSERT INTO Member (
+    ID,
+    FullName,
+    Activity,
+    Gender,
+    DateOfBirth,
+    Height,
+    Weight,
+    GoalWeight,
+    Email,
+    Password,
+    CoachID
+) VALUES (
+    'M001',
+    'Bob Green',
+    1,
+    'M',
+    '1992-08-12',
+    175.0,
+    80.0,
+    70.0,
+    'bob@example.com',
+    'password456',
+    'C001'  -- References the existing coach, Alice Brown
+);
+
 create role coach;
 create role reg_Mem;
 #create role prem_Mem;
