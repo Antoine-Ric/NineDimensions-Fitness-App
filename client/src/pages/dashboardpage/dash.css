@@ -1,0 +1,187 @@
+/* Base Reset and Font */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif; /* Modern and versatile font */
+}
+
+/* Dashboard Page Layout */
+.DashboardPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(
+    135deg,
+    #4a90e2,
+    #8759f2
+  ); /* Sleek background gradient */
+  color: #ffffff; /* Light text for contrast */
+}
+
+/* Main Container */
+.MainContainer {
+  display: flex;
+  flex: 1;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 100vw; /* Optimal reading width */
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Header with Shadow and Layout */
+.dashHeader {
+  width: 100%;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.1); /* Subtle transparency */
+  backdrop-filter: blur(5px); /* Blur background for focus */
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Styling for Main Content and Side Navigation */
+.main,
+.sideNav {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* Semi-transparent white for layering */
+  color: #333; /* Dark text for readability */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sideNav {
+  width: 200px; /* Refined width for modern look */
+}
+
+/* Buttons and Interactive Elements */
+button {
+  background-color: #ff4081; /* Vibrant accent color */
+  color: #ffffff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 25px; /* Pill shape for modern touch */
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05); /* Slight growth on hover for interaction */
+}
+
+/* Modern Styling for Breakfast, Lunch, Dinner Sections */
+div.Breakfast,
+div.Lunch,
+div.Dinner {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #ffffff; /* Clear distinction from background */
+  color: #333; /* Consistent dark text for contrast */
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.breakfast-main img {
+  width: 120px; /* Uniform image size */
+  height: 120px;
+  border-radius: 50%; /* Circular images for a modern flair */
+  object-fit: cover;
+}
+
+.breakfast-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.breakfast-main p {
+  font-size: 14px;
+  color: #666;
+}
+
+.dashboard-exercises {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f4f8; /* Light background for contrast */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px; /* Optimal width for readability */
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh; /* Adjust based on your layout */
+  overflow: hidden;
+}
+
+.dashboard-exercises h2 {
+  color: #333; /* Dark color for titles */
+  margin-bottom: 16px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto; /* Enables vertical scrolling */
+  max-height: 65vh; /* Adjust this value based on your header size and desired list height */
+}
+
+li {
+  background-color: #ffffff; /* White background for each item */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 10px; /* Space between items */
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+li strong {
+  color: #007bff; /* A vibrant color for exercise names */
+  margin-bottom: 5px;
+}
+
+.dashboard-exercises p{
+  color: black;
+}
+
+.swap-food-btn {
+  cursor: pointer; /* Indicates the element is clickable */
+  color: #007bff; /* A standard, clickable link color */
+  font-weight: bold; /* Makes the text stand out */
+  text-decoration: underline; /* Underline to suggest interactivity */
+  background-color: transparent; /* Ensures no background color */
+  border: none; /* No border */
+  padding: 0; /* No padding */
+  margin: 0; /* No margin */
+  font-size: inherit; /* Keeps the font size consistent with surrounding text */
+  transition: color 0.3s; /* Smooth transition for hover effect */
+}
+
+.swap-food-btn:hover, .swap-food-btn:focus {
+  color: #0056b3; /* A darker shade of blue for hover/focus state */
+  text-decoration: none; /* Removes underline on hover/focus for a clean look */
+}
+

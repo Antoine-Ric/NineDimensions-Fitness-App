@@ -4,12 +4,12 @@ from bcrypt import hashpw, gensalt, checkpw
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
+load_dotenv() 
 import time 
 import random
 
 app = Flask(__name__)
 CORS(app)
-load_dotenv()
 
 app.secret_key = os.getenv('APP_SECRET_KEY')
 HOSTNAME = os.getenv('MYSQL_HOST')
@@ -25,7 +25,6 @@ app.config['MYSQL_DB'] = HOST_DATABASE
 app.config['MYSQL_CURSORCLASS'] = CURSOR_CLASS
 
 mysql = MySQL(app)
-app = Flask(__name__)
 
 @app.route('/api/test', methods=['GET'])
 def get_data():
