@@ -6,7 +6,7 @@ const QuizQuestions = () => {
     const navigate = useNavigate();
     // Define questions and choices
     const questions = [
-        "What is your first name?",
+        "What is your full name?",
         "Thanks! Now for your goals,",
         "What is your baseline activity level?",
         "Please select which sex we should use to calculate your calorie needs.",
@@ -17,15 +17,15 @@ const QuizQuestions = () => {
 
     const goalChoices = ["Lose Weight", "Gain Weight", "Gain Muscle", "Manage Stress"];
     const activityLevelChoices = ["Not Very Active", "Lightly Active", "Active", "Very Active"];
-    const sexChoices = ["Male", "Female"];
+    const genderChoices = ["Male", "Female"];
 
     // State to track current question index, user answers, and user's name
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState(Array(questions.length).fill(''));
-    const [userName, setUserName] = useState('');
+    const [fullName, setfullName] = useState('');
     const [selectedGoals, setSelectedGoals] = useState([]);
     const [selectedActivityLevel, setSelectedActivityLevel] = useState('');
-    const [selectedSex, setSelectedSex] = useState('');
+    const [gender, setGender] = useState('');
     const [birthDate, setBirthDate] = useState('');
     const [weight, setWeight] = useState('');
     const [height, setHeight] = useState('');
@@ -54,9 +54,9 @@ const QuizQuestions = () => {
         newAnswers[currentQuestion] = e.target.value;
         setAnswers(newAnswers);
 
-        // If current question is the first question (index 0), update userName state
+        // If current question is the first question (index 0), update fullName state
         if (currentQuestion === 0) {
-            setUserName(e.target.value);
+            setfullName(e.target.value);
         }
     };
 
@@ -76,8 +76,8 @@ const QuizQuestions = () => {
     };
 
     // Function to handle selecting sex
-    const handleSexSelection = (e) => {
-        setSelectedSex(e.target.value);
+    const handleGenderSelection = (e) => {
+        setGender(e.target.value);
     };
 
     // Function to handle selecting birth date
@@ -124,10 +124,10 @@ const QuizQuestions = () => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    userName,
+                    fullName,
                     selectedGoals,
                     selectedActivityLevel,
-                    selectedSex,
+                    gender,
                     birthDate,
                     weight,
                     height,
@@ -151,7 +151,7 @@ const QuizQuestions = () => {
         <div className="question-card-container">
             {/* Display current question */}
             <div className="question-card">
-                <h2>{questions[currentQuestion]} {currentQuestion === 1 && userName}</h2>
+                <h2>{questions[currentQuestion]} {currentQuestion === 1 && fullName}</h2>
 
                 {/* Input field for user's answer or choices for goals */}
                 {currentQuestion === 0 ? (
@@ -188,17 +188,17 @@ const QuizQuestions = () => {
                         </div>
                     ))
                 ) : currentQuestion === 3 ? (
-                    sexChoices.map((sex, index) => (
+                    genderChoices.map((gender, index) => (
                         <div key={index}>
                             <input
                                 type="radio"
-                                id={sex}
-                                name="sex"
-                                value={sex}
-                                checked={selectedSex === sex}
-                                onChange={handleSexSelection}
+                                id={gender}
+                                name="gender"
+                                value={gender}
+                                checked={setGender === gender}
+                                onChange={handleGenderSelection}
                             />
-                            <label htmlFor={sex}>{sex}</label>
+                            <label htmlFor={gender}>{gender}</label>
                         </div>
                     ))
                 ) : currentQuestion === 4 ? (

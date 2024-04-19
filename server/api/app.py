@@ -4,6 +4,8 @@ from bcrypt import hashpw, gensalt, checkpw
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
+import time 
+import random
 
 app = Flask(__name__)
 CORS(app)
@@ -134,6 +136,9 @@ def signup():
         height = new_member.get("height")
         goalWeight = new_member.get("goalWeight")
 
+        # Generate a unique ID for the new member
+        new_member_id = generate_unique_id()
+
         # Check if the email already exists in the database
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Member WHERE Email = %s", (email,))
@@ -145,15 +150,20 @@ def signup():
         # If email is not already in use, proceed with registration
         hashed_password = hashpw(password.encode('utf-8'), gensalt())
 
-        cursor.execute("INSERT INTO Member (Firstname, Lastname, Email, Password, UserName, SelectedGoals, SelectedActivityLevel, SelectedSex, BirthDate, Weight, Height, GoalWeight) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                       (firstname, lastname, email, hashed_password, userName, selectedGoals, selectedActivityLevel, selectedSex, birthDate, weight, height, goalWeight))
+        cursor.execute("INSERT INTO Member (ID, Firstname, Lastname, Email, Password, UserName, SelectedGoals, SelectedActivityLevel, SelectedSex, BirthDate, Weight, Height, GoalWeight) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                       (new_member_id, firstname, lastname, email, hashed_password, userName, selectedGoals, selectedActivityLevel, selectedSex, birthDate, weight, height, goalWeight))
         conn.commit()
-        new_member_id = cursor.lastrowid
     except Exception as e:
         conn.rollback()
         return jsonify({'status_code': 500, 'message': f'Error: {str(e)}'}), 500
 
     return jsonify({'status_code': 201, 'message': 'User registered successfully', 'ID': new_member_id}), 201
+
+def generate_unique_id():
+    timestamp = int(time.time() * 1000)
+    random_number = random.randint(0, 9999) 
+    unique_id = f'{timestamp}-{random_number:04}' 
+    return unique_id
 
 if __name__ == "__main__":
     app.run(debug=True)

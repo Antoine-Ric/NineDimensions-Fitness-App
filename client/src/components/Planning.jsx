@@ -13,6 +13,16 @@ export default function Planning() { // Updated the function name to Planning
         <Link to="/quizintro" className="btn btn-primary">
           Start Planning Your Journey Today!
         </Link>
+        <div className="planning-box"></div>
+        <div className="coaching-section">
+          <h2 className="planning-title">Want to inspire the next generation?</h2>
+          <p className="planning-description">
+            You can help someone start their own fitness journey by signing up to be a coach for our platform.
+          </p>
+          <Link to="/coachquiz" className="btn btn-primary">
+            Begin your Coaching Journey
+          </Link>
+        </div>
         <h2 className="hitting-title">Hitting Your Health Goals</h2>
         <p className="number blue-bold">1</p>
         <h2 className="title-subsection">Track food, fitness & fasting</h2>

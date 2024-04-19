@@ -10,6 +10,7 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home.jsx'; 
 import QuizIntro from './components/QuizIntro';
 import WelcomeQuiz from './pages/WelcomeQuiz';
+import CoachQuiz from './pages/CoachQuiz';
 import CoachLogin from "./pages/loginpage/CoachLogin.jsx";
 
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/quizintro" element={<QuizIntro />} />
         <Route path="/welcomequiz" element={<WelcomeQuiz />} />
+        <Route path="/coachquiz" element={<CoachQuiz />} />
         <Route path="/coachlogin" element={<CoachLogin />} />
       </Route>
 
