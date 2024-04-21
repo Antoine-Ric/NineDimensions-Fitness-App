@@ -189,14 +189,24 @@ def food_facts():
     nutrition=food_API_Call(food)   #store in matrix
     #go through matrix and retrive info on food
     j=0
+    name_list=[]
+    cal_list=[]
+    serv_list=[]
     for i in nutrition:
         name=nutrition[j]['name']
+        name_list.append(name)
         #print/send to front end
         cal=nutrition[j]['calories']
+        cal_list.append(cal)
         #print/send to front end
         servSize=nutrition[j]['serving_size_g']
+        serv_list.append(servSize)
         #print/send to front end
+        
         j+=1
+    foodDict={"food": name_list, "calories": cal_list, "serving": serv_list}    #create dict 
+    return jsonify(foodDict)
+    
 
     #return for func    
 
@@ -220,16 +230,24 @@ def ex_API_Call(type_workout):
 def get_exercises():
     typeName = request.get_json()
     exType=typeName.get("")
+
     exMatrix=ex_API_Call(exType)
     j=0
+    ex_list=[]
+    instru_list=[]
     for i in exMatrix:
         ex=exMatrix[j]['name']
+        ex_list.append(ex)
         #print/send to front end       
         instru=exMatrix[j]['instructions']
+        instru_list.append(instru)
         #print/send to front end
         j+=1
-
+    exDict={"exercise": ex_list, "instruction": instru_list}    #create dict of only name and instru
+    return jsonify(exDict)
     #return for func
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+#delete acct and edit
