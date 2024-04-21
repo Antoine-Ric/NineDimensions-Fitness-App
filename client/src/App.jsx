@@ -1,9 +1,9 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/loginpage/Login.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
+import Dashboard from "./pages/dashboardpage/Dashboard.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
-import Profile from "./pages/loginpage/profile.jsx"; 
+import Profile from "./pages/profile/ProfilePage.jsx"; 
 import Layout from "./components/Layout.jsx";
 import './App.css'; 
 import NavBar from './components/NavBar';

@@ -3,7 +3,7 @@ create database fitnessapp;
 use fitnessapp;
 
 create table Coach(
-ID char(15) PRIMARY KEY,
+ID vachar(200) PRIMARY KEY,
 FullName varchar(100) NOT NULL,
 Email varchar(255) UNIQUE NOT NULL,
 Password varchar(100) NOT NULL,
@@ -11,7 +11,7 @@ DateOfBirth DATE
 );
 
 create table Member(
-ID char(15) PRIMARY KEY,
+ID char(200) PRIMARY KEY,
 FullName varchar(100) NOT NULL,
 Activity integer,
 Gender char(1),
@@ -31,19 +31,25 @@ Create Table findEx(m_MemID Varchar(8), foreign key(m_MemID) references member(I
 Create Table Assign(a_EMPLID varchar(15), a_eName VarChar(225), Primary Key(a_EMPLID, a_eName), foreign key(a_EMPLID) references Coach(ID), foreign key(a_eName) references Exercise(eName));
 
 create table loseWeight(
-ID integer PRIMARY KEY,
-MemberID char(15),
-CoachID char(15)
+MemberID varchar(200) PRIMARY KEY,
+CoachID varchar(200),
+CoachID varchar(200) FOREIGN KEY REFERENCES Coach(ID)
 );
 create table gainWeight(
-ID integer PRIMARY KEY,
-MemberID char(15),
-CoachID char(15)
+MemberID varchar(200) PRIMARY KEY,
+CoachID varchar(200),
+CoachID varchar(200) FOREIGN KEY REFERENCES Coach(ID)
 );
 create table gainMuscle(
-ID integer PRIMARY KEY,
-MemberID char(15),
-CoachID char(15)
+MemberID varchar(200) PRIMARY KEY,
+CoachID varchar(200),
+CoachID varchar(200) FOREIGN KEY REFERENCES Coach(ID)
+);
+
+create table manageStress(
+MemberID varchar(200) PRIMARY KEY,
+CoachID varchar(200),
+CoachID varchar(200) FOREIGN KEY REFERENCES Coach(ID)
 );
 
 INSERT INTO Coach (

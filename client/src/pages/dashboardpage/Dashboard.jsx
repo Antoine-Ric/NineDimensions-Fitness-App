@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DashFood from "../../components/DashBoardFood";
 import DashExercise from "../../components/DashBoardExercises";
-import "./dash.css";
+import "./dash.css"
+
 
 const Dashboard = () => {
   const { ID } = useParams();
@@ -29,6 +30,7 @@ const Dashboard = () => {
       try {
         const response = await fetch(`/api/account/info/${ID}`);
         if (!response.ok) {
+          console.log("response", response);
           throw new Error("Failed to fetch");
         }
         const data = await response.json();

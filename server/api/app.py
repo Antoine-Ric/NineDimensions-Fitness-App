@@ -1,13 +1,15 @@
+import datetime
 from flask import Flask, jsonify, request, session, make_response
 from flask_mysqldb import MySQL
 from bcrypt import hashpw, gensalt, checkpw
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
-load_dotenv() 
-import time 
+import time
 import random
 import string
+load_dotenv()
+
 
 app = Flask(__name__)
 CORS(app)
@@ -27,10 +29,12 @@ app.config['MYSQL_CURSORCLASS'] = CURSOR_CLASS
 
 mysql = MySQL(app)
 
+
 @app.route('/api/test', methods=['GET'])
 def get_data():
     data = {'message': 'This is a test message from the server!'}
     return jsonify(data)
+
 
 @app.route('/api/account/login', methods=['POST'])
 def login():
@@ -49,7 +53,7 @@ def login():
         return jsonify({'status_code': 404, 'message': 'User not found'}), 404
 
     verifiedPassword = verifiedUser.get("Password")
-    verifiedName = verifiedUser.get("Firstname")
+    verifiedName = verifiedUser.get("FullName").split(' ')[0]
     verifiedID = verifiedUser.get("ID")
     verifiedEmail = verifiedUser.get("Email")
 
@@ -94,34 +98,52 @@ def getInfo(USERID):
 
     try:
         cursor.execute(
-            "SELECT Firstname, Lastname, Email, ID FROM Member WHERE ID = %s", (USERID,))
+            "SELECT FullName, Email,Gender,DateOfBirth, Height,Weight FROM Member WHERE ID = %s", (USERID,))
         user_info = cursor.fetchone()
 
         if user_info:
+            dob = user_info['DateOfBirth']
+            today = datetime.date.today()
+
+            # Calculate age
+            age = today.year - dob.year - \
+                ((today.month, today.day) < (dob.month, dob.day))
+
+            # Splitting FullName into Firstname and Lastname
+            names = user_info['FullName'].split(' ')
+            firstname = names[0]
+            # Handling cases where there might be no lastname
+            lastname = names[1] if len(names) > 1 else ''
+
+            # Preparing response
             return jsonify({
                 'status_code': 200,
                 'user': {
-                    'ID': user_info['ID'],
-                    'Firstname': user_info['Firstname'],
-                    'Lastname': user_info['Lastname'],
-                    'Email': user_info['Email']
-                },
-                'message': 'User info retrieved successfully'
+                    'Firstname': firstname,
+                    'Lastname': lastname,
+                    'Email': user_info['Email'],
+                    'Gender': user_info['Gender'],
+                    'Age': age,
+                    'Height': user_info['Height'],
+                    'Weight': user_info['Weight'],
+                    'message': 'User info retrieved successfully'}
             }), 200
         else:
             return jsonify({'message': 'User not found'}), 404
     except Exception as e:
         conn.rollback()
+        print("my exception",e)
         return jsonify({'message': f'Error: {str(e)}'}), 500
     finally:
         cursor.close()
+
 
 @app.route('/api/account/signup', methods=['POST'])
 def signup():
     try:
         conn = mysql.connection
         new_member = request.get_json()
-        
+
         # Extracting values from the JSON payload
         email = new_member.get("email")
         password = new_member.get("password")
@@ -159,61 +181,10 @@ def signup():
 
     return jsonify({'status_code': 201, 'message': 'User registered successfully', 'ID': new_member_id}), 201
 
-
-@app.route('/api/coach/signup', methods=['POST'])
-def coach_signup():
-    try:
-        conn = mysql.connection
-        coach_data = request.get_json()
-
-        # Extracting values from the JSON payload
-        full_name = coach_data.get("fullName")
-        gender = coach_data.get("gender") 
-        activity_level = coach_data.get("activityLevel")
-        birth_date = coach_data.get("birthDate")
-        email = coach_data.get("email")
-        password = coach_data.get("password")
-
-        # Generate a unique ID for the new coach
-        new_coach_id = generate_unique_id()
-
-        # Check if the email already exists in the database
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Coach WHERE Email = %s", (email,))
-        existing_coach = cursor.fetchone()
-
-        if existing_coach:
-            return jsonify({'status_code': 409, 'message': 'Email already exists'}), 409
-
-        # If email is not already in use, proceed with registration
-        hashed_password = hashpw(password.encode('utf-8'), gensalt())
-
-        # Determine the ID based on the activity level
-        if activity_level == 1:
-            cursor.execute("INSERT INTO loseWeight(CoachID) VALUES (%s)", (new_coach_id,))
-        elif activity_level == 2:
-            cursor.execute("INSERT INTO gainWeight(CoachID) VALUES (%s)", (new_coach_id,))
-        elif activity_level == 3:
-            cursor.execute("INSERT INTO gainMuscle(CoachID) VALUES (%s)", (new_coach_id,))
-        elif activity_level == 4:
-            cursor.execute("INSERT INTO manageStress(CoachID) VALUES (%s)", (new_coach_id,))
-        else:
-            return jsonify({'status_code': 400, 'message': 'Invalid activity level'}), 400
-
-        cursor.execute("INSERT INTO Coach (ID, Fullname, Gender, ActivityLevel, BirthDate, Email, Password) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                       (new_coach_id, full_name, gender, birth_date, email, hashed_password))
-        conn.commit()
-    except Exception as e:
-        conn.rollback()
-        return jsonify({'status_code': 500, 'message': f'Error: {str(e)}'}), 500
-
-    return jsonify({'status_code': 201, 'message': 'Coach registered successfully', 'ID': new_coach_id}), 201
-
-
 def generate_unique_id():
     timestamp = int(time.time() * 1000)
-    random_chars = ''.join(random.choices(string.ascii_letters + string.digits, k=200))
-    unique_id = f'{timestamp}-{random_chars}'[:200]
+    random_number = random.randint(0, 9999) 
+    unique_id = f'{timestamp}-{random_number:04}' 
     return unique_id
 
 if __name__ == "__main__":

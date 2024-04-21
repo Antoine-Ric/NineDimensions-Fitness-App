@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import "./profile.css";
+
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -50,8 +50,13 @@ const ProfilePage = () => {
     // Implement account deletion functionality here, with confirmation
   };
 
+  const backClick = () => {
+    navigate(`/dashboard/M001`);
+  }
+
   return (
     <div className="profile-page">
+      <button className="backbutton" onClick={backClick}>Back to dashboard</button>
       <h2>Edit Profile</h2>
       <form onSubmit={handleSubmit}>
         <label>
