@@ -1,13 +1,13 @@
 import mysql.connector as ms
 
 try:
-    connection = ms.connect(
+    mydb = ms.connect(
         host = "127.0.0.1",
         user = "root",
         password = "Admin1234",
         database = "db_proj4710",
     )
-    if connection.is_connected():
+    if mydb.is_connected():
         print("Sucess!")
     
 except ms.Error as e:

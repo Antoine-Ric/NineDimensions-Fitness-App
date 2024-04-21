@@ -164,5 +164,43 @@ def generate_unique_id():
     unique_id = f'{timestamp}-{random_number:04}' 
     return unique_id
 
+#edit info
+#select food/workout
+'''
+def food_API_Call(dish):
+    query = dish
+    api_url = 'https://api.api-ninjas.com/v1/nutrition?query={}'.format(query)
+    response = requests.get(api_url, headers={'X-Api-Key': 'TY3SQ0ut2XkUDB6RzXQfWA==ZKGr3kCA9EYvDJIx'}).json()
+    j=0
+    for i in response:
+        name=response[j]['name']
+        print("Food: ", response[j]['name'])
+        cal=response[j]['calories']
+        print("Calories: ", response[j]['calories'])
+        servSize=response[j]['serving_size_g']
+        print("Serving in grams: ", response[j]['serving_size_g'])
+        j+=1
+    return response
+'''
+'''
+def ex_API_Call(type_workout):
+    types = type_workout
+    
+    api_url = 'https://api.api-ninjas.com/v1/exercises?type={}'.format(types)
+
+    response = requests.get(api_url, headers={'X-Api-Key': 'TY3SQ0ut2XkUDB6RzXQfWA==ZKGr3kCA9EYvDJIx'}).json()
+    j=0
+    for i in response:
+        ex=response[j]['name']
+        print("Exercise: ",response[j]['name'])
+        instru=response[j]['instructions']
+        print("Instructions: ",response[j]['instructions'])
+        #mycur.execute("insert into Exercise(eName, instructions, type) values (%s, %s, %s)", (ex, instru, types))
+        j+=1
+
+    return response
+
+'''
+
 if __name__ == "__main__":
     app.run(debug=True)
