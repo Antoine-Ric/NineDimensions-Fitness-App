@@ -11,7 +11,7 @@ DateOfBirth DATE
 );
 
 create table Member(
-ID char(200) PRIMARY KEY,
+ID varchar(200) PRIMARY KEY,
 FullName varchar(100) NOT NULL,
 Activity integer,
 Gender char(1),
