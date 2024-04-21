@@ -166,7 +166,7 @@ def generate_unique_id():
 
 #edit info
 #select food/workout
-'''
+
 def food_API_Call(dish):
     query = dish
     api_url = 'https://api.api-ninjas.com/v1/nutrition?query={}'.format(query)
@@ -181,11 +181,28 @@ def food_API_Call(dish):
         print("Serving in grams: ", response[j]['serving_size_g'])
         j+=1
     return response
-'''
-'''
+
+def food_facts():
+    #grab name of food from user and store
+    foodName = request.get_json()
+    food=foodName.get("")
+    nutrition=food_API_Call(food)   #store in matrix
+    #go through matrix and retrive info on food
+    j=0
+    for i in nutrition:
+        name=nutrition[j]['name']
+        #print/send to front end
+        cal=nutrition[j]['calories']
+        #print/send to front end
+        servSize=nutrition[j]['serving_size_g']
+        #print/send to front end
+        j+=1
+
+    #return for func    
+
 def ex_API_Call(type_workout):
     types = type_workout
-    
+
     api_url = 'https://api.api-ninjas.com/v1/exercises?type={}'.format(types)
 
     response = requests.get(api_url, headers={'X-Api-Key': 'TY3SQ0ut2XkUDB6RzXQfWA==ZKGr3kCA9EYvDJIx'}).json()
@@ -200,7 +217,19 @@ def ex_API_Call(type_workout):
 
     return response
 
-'''
+def get_exercises():
+    typeName = request.get_json()
+    exType=typeName.get("")
+    exMatrix=ex_API_Call(exType)
+    j=0
+    for i in exMatrix:
+        ex=exMatrix[j]['name']
+        #print/send to front end       
+        instru=exMatrix[j]['instructions']
+        #print/send to front end
+        j+=1
+
+    #return for func
 
 if __name__ == "__main__":
     app.run(debug=True)
