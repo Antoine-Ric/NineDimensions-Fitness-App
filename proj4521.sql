@@ -3,7 +3,7 @@ create database fitnessapp;
 use fitnessapp;
 
 create table Coach(
-ID vachar(200) PRIMARY KEY,
+ID varchar(200) PRIMARY KEY,
 FullName varchar(100) NOT NULL,
 Email varchar(255) UNIQUE NOT NULL,
 Password varchar(100) NOT NULL,
