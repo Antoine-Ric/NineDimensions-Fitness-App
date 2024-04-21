@@ -8,6 +8,7 @@ const CoachQuizQuestions = () => {
     // Define questions and choices
     const questions = [
         "What is your full name?",
+        "What is your gender?",
         "Thanks! Now for your goals as a Coach,",
         "When were you born?",
         "Input your email and password"
@@ -18,11 +19,13 @@ const CoachQuizQuestions = () => {
     // State to track current question index, user answers, and user's data
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [fullName, setFullName] = useState('');
+    const [gender, setGender] = useState('');
     const [activityLevel, setActivityLevel] = useState('');
     const [birthDate, setBirthDate] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+
 
     // Function to handle moving to the next question
     const nextQuestion = () => {
@@ -40,11 +43,16 @@ const CoachQuizQuestions = () => {
 
     // Function to handle selecting activity level
     const handleActivityLevelSelection = (e) => {
-        setActivityLevel(e.target.value);
+        // Get the index of the selected choice
+        const index = goalChoices.indexOf(e.target.value);
+        // Assign a number based on the index (assuming index + 1)
+        setActivityLevel(index + 1);
     };
 
     // Function to handle selecting birth date
     const handleBirthDateChange = (e) => {
+        // Log the activity level in the console
+        console.log(activityLevel);
         setBirthDate(e.target.value);
     };
 
@@ -68,6 +76,11 @@ const CoachQuizQuestions = () => {
         setFullName(e.target.value);
     };
 
+    // Function to handle selecting gender
+    const handleGenderChange = (e) => {
+        setGender(e.target.value);
+    };
+
     // Function to handle form submission
     const handleSubmit = async () => {
         try {
@@ -78,6 +91,7 @@ const CoachQuizQuestions = () => {
                 },
                 body: JSON.stringify({
                     fullName,
+                    gender,
                     activityLevel,
                     birthDate,
                     email,
@@ -99,7 +113,7 @@ const CoachQuizQuestions = () => {
         <div className="question-card-container">
             {/* Display current question */}
             <div className="question-card">
-                <h2>{currentQuestion === 1 ? `${questions[currentQuestion]} ${fullName}` : questions[currentQuestion]}</h2>
+                <h2>{currentQuestion === 1 ? `${questions[currentQuestion]} ${fullName}` : currentQuestion === 2 ? questions[currentQuestion] : questions[currentQuestion]}</h2>
 
                 {/* Input field for user's answer or choices for activity levels */}
                 {currentQuestion === 0 ? (
@@ -110,6 +124,27 @@ const CoachQuizQuestions = () => {
                         onChange={handleFullNameChange}
                     />
                 ) : currentQuestion === 1 ? (
+                    <div>
+                        <input
+                            type="radio"
+                            id="male"
+                            name="gender"
+                            value="Male"
+                            checked={gender === "Male"}
+                            onChange={handleGenderChange}
+                        />
+                        <label htmlFor="male">Male</label>
+                        <input
+                            type="radio"
+                            id="female"
+                            name="gender"
+                            value="Female"
+                            checked={gender === "Female"}
+                            onChange={handleGenderChange}
+                        />
+                        <label htmlFor="female">Female</label>
+                    </div>
+                ) : currentQuestion === 2 ? (
                     goalChoices.map((level, index) => (
                         <div key={index}>
                             <input
@@ -117,13 +152,13 @@ const CoachQuizQuestions = () => {
                                 id={level}
                                 name="activityLevel"
                                 value={level}
-                                checked={activityLevel === level}
+                                checked={activityLevel === index + 1}
                                 onChange={handleActivityLevelSelection}
                             />
                             <label htmlFor={level}>{level}</label>
                         </div>
                     ))
-                ) : currentQuestion === 2 ? (
+                ) : currentQuestion === 3 ? (
                     <input
                         type="date"
                         value={birthDate}
