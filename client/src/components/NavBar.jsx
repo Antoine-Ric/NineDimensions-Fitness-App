@@ -7,14 +7,19 @@ function NavBar() {
     top: 8,
     fontSize: '2rem',
     textDecoration: 'none', 
-    color: 'inherit', 
-    cursor: 'default' 
+    color: 'black', 
+    cursor: 'default', 
+    transition: 'color 0.3s' 
+  };
+
+  const hoverStyle = {
+    color: '#007bff' 
   };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
-        <a href="/" style={linkStyle}>
+        <a href="/" style={linkStyle} onMouseEnter={(e) => e.target.style.color = '#007bff'} onMouseLeave={(e) => e.target.style.color = 'black'}>
           NineDimensions
         </a>
       </div>
