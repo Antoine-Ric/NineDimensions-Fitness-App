@@ -1,4 +1,4 @@
-#drop database db_proj4710;
+drop database fitnessapp;
 create database fitnessapp;
 use fitnessapp;
 
@@ -33,23 +33,23 @@ Create Table Assign(a_EMPLID varchar(15), a_eName VarChar(225), Primary Key(a_EM
 create table loseWeight(
 MemberID varchar(200) PRIMARY KEY,
 CoachID varchar(200),
-CoachID varchar(200) FOREIGN KEY REFERENCES Coach(ID)
+FOREIGN KEY (CoachID) REFERENCES Coach(ID)
 );
 create table gainWeight(
 MemberID varchar(200) PRIMARY KEY,
 CoachID varchar(200),
-CoachID varchar(200) FOREIGN KEY REFERENCES Coach(ID)
+FOREIGN KEY (CoachID) REFERENCES Coach(ID)
 );
 create table gainMuscle(
 MemberID varchar(200) PRIMARY KEY,
 CoachID varchar(200),
-CoachID varchar(200) FOREIGN KEY REFERENCES Coach(ID)
+FOREIGN KEY (CoachID) REFERENCES Coach(ID)
 );
 
 create table manageStress(
 MemberID varchar(200) PRIMARY KEY,
 CoachID varchar(200),
-CoachID varchar(200) FOREIGN KEY REFERENCES Coach(ID)
+FOREIGN KEY (CoachID) REFERENCES Coach(ID)
 );
 
 INSERT INTO Coach (
