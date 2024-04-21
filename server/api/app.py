@@ -247,6 +247,29 @@ def get_exercises():
     return jsonify(exDict)
     #return for func
 
+def delete_acct():
+    conn = mysql.connection
+    member = request.get_json()
+    memID = member.get("memberID")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM Member WHERE ID = %s", (memID,))
+    verifiedUser = cursor.fetchone()
+
+    actNum=cursor.execute("select activity from Member where ID = %s", (memID,))
+    if actNum == 1:
+        cursor.execute("delete from loseWeight where MemberID = %s", (memID,))
+    elif actNum == 2:
+        cursor.execute("delete from gainWeight where MemberID = %s", (memID,))
+    elif actNum == 3:
+        cursor.execute("delete from gainMuscle where MemberID = %s", (memID,))
+    elif actNum == 4:
+        cursor.execute("delete from manageStress where MemberID = %s", (memID,))
+    conn.commit()
+
+    cursor.execute("delete frome Member where ID = %s", (memID,))
+    
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 
