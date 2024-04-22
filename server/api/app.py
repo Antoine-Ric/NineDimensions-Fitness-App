@@ -245,7 +245,8 @@ def coach_signup():
         conn.rollback()
         print("exception: ", e)
         return jsonify({'status_code': 500, 'message': f'Error: {str(e)}'}), 500
-
+    session['ID'] = new_coach_id
+    session['Email'] = email
     return jsonify({'status_code': 201, 'message': 'Coach registered successfully', 'ID': new_coach_id}), 201
 
 

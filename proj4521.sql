@@ -22,7 +22,9 @@ ID varchar(15) PRIMARY KEY,
 FullName varchar(100) NOT NULL,
 Email varchar(255) UNIQUE NOT NULL,
 Password varchar(100) NOT NULL,
-DateOfBirth DATE
+DateOfBirth DATE,
+Gender char(1),
+activityLevel integer
 );
 
 create table Member(
