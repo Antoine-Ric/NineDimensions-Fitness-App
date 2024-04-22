@@ -184,6 +184,8 @@ def signup():
         conn.rollback()
         return jsonify({'status_code': 500, 'message': f'Error: {str(e)}'}), 500
 
+    session['ID'] = new_member_id
+    session['Email'] = email
     return jsonify({'status_code': 201, 'message': 'User registered successfully', 'ID': new_member_id}), 201
 
 @app.route('/api/coach/signup', methods=['POST'])

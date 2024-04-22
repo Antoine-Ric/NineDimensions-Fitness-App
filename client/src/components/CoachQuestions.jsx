@@ -100,7 +100,7 @@ const CoachQuizQuestions = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                navigate(`/coachDashboard/${data.ID}`);
+                navigate(`/coach/dashboard/${data.ID}`);
             } else {
                 // Handle error
             }
