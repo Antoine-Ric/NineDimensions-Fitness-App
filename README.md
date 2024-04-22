@@ -9,6 +9,7 @@
 - Vue + Vite
 - React
 - MySQL
+- Python Libraries (Flask, BCrypt, DotEnv, Built-In Libraries)
 - npm
 
 # Other Resources
