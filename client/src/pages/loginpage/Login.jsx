@@ -8,6 +8,7 @@ const LoginPage = () => {
   const [myform, setForm] = useState({
     Email: "",
     Password: "",
+    isCoach: 0,
   });
   const [error, setError] = useState(0);
 

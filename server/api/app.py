@@ -41,9 +41,14 @@ def login():
     try:
         conn = mysql.connection
         member = request.get_json()
-        Email, password = member.get("Email"), member.get("Password")
+        Email, password,isCoach = member.get("Email"), member.get("Password"),member.get("isCoach")
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Member WHERE Email = %s", (Email,))
+        if isCoach == 1:
+            table_name = "Coach"
+        elif isCoach == 0:
+            table_name = "Member"
+        cursor.execute(
+            f"SELECT * FROM {table_name} WHERE Email = %s", (Email,))
         verifiedUser = cursor.fetchone()
     except Exception as e:
         conn.rollback()
@@ -250,6 +255,44 @@ def generate_unique_id():
     unique_id = f'{timestamp}-{random_chars}'[:15]
     return unique_id
 
+
+@app.route('/api/coach/<coachID>/trainees', methods=['GET'])
+def getTrainees(coachID):
+    if 'ID' not in session or session['ID'] != coachID:
+        return jsonify({'message': 'User not authenticated or incorrect user ID'}), 401
+
+    conn = mysql.connection
+    cursor = conn.cursor()
+
+    try:
+        # Execute the SQL query to fetch trainees under this coach
+        cursor.execute(
+            "SELECT FullName, Email, DateOfBirth FROM Member WHERE CoachID = %s", (coachID,))
+        trainees = cursor.fetchall()
+
+        # If there are no trainees found, return a 404
+        if not trainees:
+            return jsonify({'message': 'No trainees found'}), 404
+
+        # Convert fetched data into a list of dictionaries to send as JSON
+        trainees_list = []
+        for trainee in trainees:
+            dob = trainee['DateOfBirth']
+            today = datetime.date.today()
+            age = today.year - dob.year - \
+                ((today.month, today.day) < (dob.month, dob.day))
+
+            trainees_list.append({
+                'Fullname': trainee['FullName'],
+                'Email': trainee['Email'],
+                'Age': age
+            })
+            print("trauinines: ",trainees_list)
+        return jsonify(trainees_list), 200
+    except Exception as e:
+        # Rollback in case of exception
+        conn.rollback()
+        return jsonify({'status_code': 500, 'message': f'Error fetching trainees: {str(e)}'}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
