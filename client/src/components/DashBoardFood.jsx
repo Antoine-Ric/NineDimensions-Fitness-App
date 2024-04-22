@@ -1,6 +1,9 @@
 const DashBoardFood = () => {
   const imgurl =
     "https://images.unsplash.com/photo-1525351484163-7529414344d8?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+
+
+   
   return (
     <div>
       <div className="Breakfast">
@@ -8,7 +11,7 @@ const DashBoardFood = () => {
         <div className="breakfast-main">
           <img width={150} src={imgurl} alt="" />
           <p>egg toast calories: 150</p>
-          <h3 className="swap-food-btn">swap</h3>
+          <button className="swap-food-btn">swap</button>
         </div>
       </div>
       <div className="Lunch">
@@ -16,7 +19,7 @@ const DashBoardFood = () => {
         <div className="breakfast-main">
           <img width={150} src={imgurl} alt="" />
           <p>egg toast calories: 150</p>
-          <h3 className="swap-food-btn">swap</h3>
+          <button className="swap-food-btn">swap</button>
         </div>
       </div>
       <div className="Dinner">
@@ -24,7 +27,7 @@ const DashBoardFood = () => {
         <div className="breakfast-main">
           <img width={150} src={imgurl} alt="" />
           <p>egg toast calories: 150</p>
-          <h3 className="swap-food-btn">swap</h3>
+          <button className="swap-food-btn">swap</button>
         </div>
       </div>
     </div>
