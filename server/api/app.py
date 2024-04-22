@@ -181,11 +181,75 @@ def signup():
 
     return jsonify({'status_code': 201, 'message': 'User registered successfully', 'ID': new_member_id}), 201
 
+@app.route('/api/coach/signup', methods=['POST'])
+def coach_signup():
+    try:
+        conn = mysql.connection
+        coach_data = request.get_json()
+
+        # Extracting values from the JSON payload
+        full_name = coach_data.get("fullName")
+        agender = coach_data.get("gender") 
+        activity_level = coach_data.get("activityLevel")
+        birth_date = coach_data.get("birthDate")
+        email = coach_data.get("email")
+        password = coach_data.get("password")
+        gender = ""
+
+        if agender == "Male":
+            gender = 'M'
+        elif agender == "Female":
+            gender = 'F'
+
+
+
+        # Generate a unique ID for the new coach
+        new_coach_id = generate_unique_id()
+        print("unique id: ", new_coach_id)
+
+        # Check if the email already exists in the database
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Coach WHERE Email = %s", (email,))
+        existing_coach = cursor.fetchone()
+
+        if existing_coach:
+            return jsonify({'status_code': 409, 'message': 'Email already exists'}), 409
+
+        # If email is not already in use, proceed with registration
+        hashed_password = hashpw(password.encode('utf-8'), gensalt())
+        print("hashed pass", hashed_password)
+
+        # Determine the ID based on the activity level
+        if activity_level == 1:
+            cursor.execute("INSERT INTO loseWeight(CoachID) VALUES (%s)", (new_coach_id,))
+        elif activity_level == 2:
+            cursor.execute("INSERT INTO gainWeight(CoachID) VALUES (%s)", (new_coach_id,))
+        elif activity_level == 3:
+            cursor.execute("INSERT INTO gainMuscle(CoachID) VALUES (%s)", (new_coach_id,))
+        elif activity_level == 4:
+            cursor.execute("INSERT INTO manageStress(CoachID) VALUES (%s)", (new_coach_id,))
+        else:
+            return jsonify({'status_code': 400, 'message': 'Invalid activity level'}), 400
+
+        cursor.execute("INSERT INTO Coach (ID, FullName, Gender, activityLevel, DateOfBirth, Email, Password) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                       (new_coach_id, full_name, gender, activity_level, birth_date, email, hashed_password))
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        print("exception: ", e)
+        return jsonify({'status_code': 500, 'message': f'Error: {str(e)}'}), 500
+
+    return jsonify({'status_code': 201, 'message': 'Coach registered successfully', 'ID': new_coach_id}), 201
+
+
 def generate_unique_id():
     timestamp = int(time.time() * 1000)
     random_number = random.randint(0, 9999) 
     unique_id = f'{timestamp}-{random_number:04}' 
+    random_chars = ''.join(random.choices(string.ascii_letters + string.digits, k=15))
+    unique_id = f'{timestamp}-{random_chars}'[:15]
     return unique_id
+
 
 if __name__ == "__main__":
     app.run(debug=True)
