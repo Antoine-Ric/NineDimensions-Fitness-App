@@ -75,10 +75,12 @@ const QuizQuestions = () => {
         setSelectedActivityLevel(e.target.value);
     };
 
+
     // Function to handle selecting sex
     const handleGenderSelection = (e) => {
         setGender(e.target.value);
     };
+
 
     // Function to handle selecting birth date
     const handleBirthDateChange = (e) => {
@@ -195,7 +197,7 @@ const QuizQuestions = () => {
                                 id={gender}
                                 name="gender"
                                 value={gender}
-                                checked={setGender === gender}
+                                checked={gender === gender}
                                 onChange={handleGenderSelection}
                             />
                             <label htmlFor={gender}>{gender}</label>
