@@ -142,7 +142,6 @@ def getInfo(USERID):
     finally:
         cursor.close()
 
-
 @app.route('/api/account/signup', methods=['POST'])
 def signup():
     try:
@@ -152,19 +151,24 @@ def signup():
         # Extracting values from the JSON payload
         email = new_member.get("email")
         password = new_member.get("password")
-        firstname = new_member.get("firstname")
-        lastname = new_member.get("lastname")
+        fullname = new_member.get("fullname")
         userName = new_member.get("userName")
         selectedGoals = new_member.get("selectedGoals")
         selectedActivityLevel = new_member.get("selectedActivityLevel")
-        selectedSex = new_member.get("selectedSex")
+        gender = new_member.get("setGender")
         birthDate = new_member.get("birthDate")
         weight = new_member.get("weight")
         height = new_member.get("height")
         goalWeight = new_member.get("goalWeight")
 
+        if gender == "Male":
+            gender = 'M'
+        elif gender == "Female":
+            gender = 'F'
+
         # Generate a unique ID for the new member
         new_member_id = generate_unique_id()
+        print("unique id: ", new_member_id)
 
         # Check if the email already exists in the database
         cursor = conn.cursor()
@@ -177,8 +181,8 @@ def signup():
         # If email is not already in use, proceed with registration
         hashed_password = hashpw(password.encode('utf-8'), gensalt())
 
-        cursor.execute("INSERT INTO Member (ID, Firstname, Lastname, Email, Password, UserName, SelectedGoals, SelectedActivityLevel, SelectedSex, BirthDate, Weight, Height, GoalWeight) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                       (new_member_id, firstname, lastname, email, hashed_password, userName, selectedGoals, selectedActivityLevel, selectedSex, birthDate, weight, height, goalWeight))
+        cursor.execute("INSERT INTO Member (ID, FullName, Email, Password, UserName, SelectedGoals, SelectedActivityLevel, Gender, DateOfBirth, Weight, Height, GoalWeight) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                       (new_member_id, fullname, email, hashed_password, userName, selectedGoals, selectedActivityLevel, gender, birthDate, weight, height, goalWeight))
         conn.commit()
     except Exception as e:
         conn.rollback()
@@ -187,6 +191,7 @@ def signup():
     session['ID'] = new_member_id
     session['Email'] = email
     return jsonify({'status_code': 201, 'message': 'User registered successfully', 'ID': new_member_id}), 201
+
 
 @app.route('/api/coach/signup', methods=['POST'])
 def coach_signup():
