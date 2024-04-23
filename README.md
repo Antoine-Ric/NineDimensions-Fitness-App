@@ -31,7 +31,7 @@ Our Fitness App will offer a comprehensive solution for users to track their fit
 - **Sebastian Metellus**
 - Worked on the front-end side of the project by creating the structure for the pages and components from the NavBar to the Hero section. I also implemented a color scheme and design choices for the website. This also allowed me to work on the quiz component, creating a comprehensive experience for the user/coach to submit their personal preferences.
 - **Jeremiah Daniels**
-- TBA
+- Worked on the back-end side of the project. Created the database schema to be replicated on different devices. Discover API Ninja for access to food nutrients and exercises. Created functions for the API's for implementation purposes to be used by other functions.
 - **Ricardi Antoine**
 - Worked on integrating a sidebar for the coach screen with personal information on the coach and links towards different pages for the coach's assigned goals, workouts, and more. Assisted in template and desinging the format for how the program will look as well as functionality. 
 
