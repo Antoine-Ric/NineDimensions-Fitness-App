@@ -8,7 +8,6 @@ import os
 from dotenv import load_dotenv
 import time
 import random
-import requests
 import string
 load_dotenv()
 
@@ -342,7 +341,7 @@ def get_foods():
 
 #edit info
 #select food/workout
-
+"""
 def food_API_Call(dish):
     query = dish
     api_url = 'https://api.api-ninjas.com/v1/nutrition?query={}'.format(query)
@@ -379,12 +378,12 @@ def ex_API_Call(type_workout):
 
     return response
 
-
+"""
 
 def delete_acct():
     conn = mysql.connection
     member = request.get_json()
-    memID = member.get("memberID")
+    memID = member.get("ID")
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM Member WHERE ID = %s", (memID,))
     verifiedUser = cursor.fetchone()
@@ -400,7 +399,7 @@ def delete_acct():
         cursor.execute("delete from manageStress where MemberID = %s", (memID,))
     conn.commit()
 
-    cursor.execute("delete frome Member where ID = %s", (memID,))
+    cursor.execute("delete from Member where ID = %s", (memID,))
     
 
 

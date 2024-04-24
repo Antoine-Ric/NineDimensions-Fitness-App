@@ -37,138 +37,105 @@ Height float,
 Weight float,
 GoalWeight float,
 Email varchar(255) UNIQUE NOT NULL,
-Password varchar(100) NOT NULL,
+Password varchar(255) NOT NULL,
 CoachID char(15),
 FOREIGN KEY (CoachID) REFERENCES Coach(ID)
 );
 
 
-INSERT INTO Coach (
-    ID,
-    FullName,
-    Email,
-    Password,
-    DateOfBirth
-) VALUES (
-    'C001',
-    'Alice Brown',
-    'alice@example.com',
-    'password123',
-    '1980-04-01'
+CREATE TABLE FoodItems (
+    FoodID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100),
+    Calories INT
 );
-INSERT INTO Member (
-    ID,
-    FullName,
-    Activity,
-    Gender,
-    DateOfBirth,
-    Height,
-    Weight,
-    GoalWeight,
-    Email,
-    Password,
-    CoachID
-) VALUES (
-    'M001',
-    'Bob Green',
-    1,
-    'M',
-    '1992-08-12',
-    175.0,
-    80.0,
-    70.0,
-    'bob@example.com',
-    'password456',
-    'C001'  -- References the existing coach, Alice Brown
+INSERT INTO FoodItems (Name, Calories) VALUES
+('Oatmeal with Honey', 215),
+('Greek Yogurt with Berries', 190),
+('Scrambled Eggs and Toast', 350),
+('Pancakes with Maple Syrup', 400),
+('Avocado Toast', 250),
+('Grilled Chicken Salad', 350),
+('Turkey and Cheese Sandwich', 400),
+('Vegetable Stir Fry', 300),
+('Tomato Soup with a Roll', 280),
+('Fish Tacos', 450),
+('Spaghetti with Meat Sauce', 500),
+('Grilled Salmon with Vegetables', 470),
+('Beef Stir Fry', 550),
+('Chicken Parmesan', 600),
+('Vegetable Pizza', 400);
+
+CREATE TABLE Breakfast (
+    memberID VARCHAR(15) PRIMARY KEY,
+    FoodID INT,
+    FOREIGN KEY (FoodID) REFERENCES FoodItems(FoodID)
 );
 
-
-INSERT INTO Member (
-    ID,
-    FullName,
-    Activity,
-    Gender,
-    DateOfBirth,
-    Height,
-    Weight,
-    GoalWeight,
-    Email,
-    Password,
-    CoachID
-) VALUES (
-    'F001',
-    'Rood Vilmont',
-    1,
-    'M',
-    '1992-08-12',
-    175.0,
-    80.0,
-    70.0,
-    'rood@example.com',
-    'password456',
-    'C001'  -- References the existing coach, Alice Brown
+CREATE TABLE Lunch (
+    memberID VARCHAR(15) PRIMARY KEY,
+    FoodID INT,
+    FOREIGN KEY (FoodID) REFERENCES FoodItems(FoodID)
 );
 
-
--- Inserting the first new member
-INSERT INTO Member (
-    ID,
-    FullName,
-    Activity,
-    Gender,
-    DateOfBirth,
-    Height,
-    Weight,
-    GoalWeight,
-    Email,
-    Password,
-    CoachID
-) VALUES (
-    'F002',
-    'Jane Doe',
-    2,  -- Assuming '2' might represent a different activity level
-    'F',
-    '1990-05-15',
-    165.0,
-    68.0,
-    60.0,
-    'jane.doe@example.com',
-    'password789',
-    'C001'  -- Same coach as before
+CREATE TABLE Dinner (
+    memberID VARCHAR(15) PRIMARY KEY,
+    FoodID INT,
+    FOREIGN KEY (FoodID) REFERENCES FoodItems(FoodID)
 );
 
--- Inserting the second new member
-INSERT INTO Member (
-    ID,
-    FullName,
-    Activity,
-    Gender,
-    DateOfBirth,
-    Height,
-    Weight,
-    GoalWeight,
-    Email,
-    Password,
-    CoachID
-) VALUES (
-    'F003',
-    'John Smith',
-    3,  -- Assuming '3' might represent another activity level
-    'M',
-    '1988-12-22',
-    180.0,
-    90.0,
-    80.0,
-    'john.smith@example.com',
-    'password123',
-    'C001'  -- Same coach as before
+CREATE TABLE Exercises (
+    ExerciseID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Category VARCHAR(50),
+    DurationMinutes INT,
+    CaloriesBurned INT,
+    Description TEXT
 );
 
+CREATE TABLE MemberExercises (
+    MemberExerciseID INT AUTO_INCREMENT PRIMARY KEY,
+    MemberID VARCHAR(15),
+    ExerciseID INT,
+    Date DATE,
+    FOREIGN KEY (MemberID) REFERENCES Member(ID),
+    FOREIGN KEY (ExerciseID) REFERENCES Exercises(ExerciseID)
+);
+
+INSERT INTO Exercises (Name, Category, DurationMinutes, CaloriesBurned, Description) 
+VALUES 
+('Running', 'Cardio', 30, 300, 'Run at a moderate pace for 30 minutes.'),
+('Cycling', 'Cardio', 45, 400, 'Bike ride for 45 minutes at a steady pace.'),
+('Weightlifting', 'Strength Training', 60, 200, 'Perform weightlifting exercises for 60 minutes.'),
+('Yoga', 'Flexibility', 60, 150, 'Practice yoga poses and stretches for 60 minutes.'),
+('Swimming', 'Cardio', 45, 500, 'Swim laps for 45 minutes at a moderate intensity.'),
+('Jump Rope', 'Cardio', 15, 200, 'Jump rope for 15 minutes continuously.'),
+('Push-ups', 'Strength Training', 15, 100, 'Perform push-ups for 15 minutes.'),
+('Sit-ups', 'Strength Training', 20, 80, 'Perform sit-ups for 20 minutes.'),
+('Plank', 'Core', 5, 50, 'Hold a plank position for 5 minutes.'),
+('Stretching', 'Flexibility', 10, 50, 'Perform stretching exercises for 10 minutes.');
+
+
+INSERT INTO Coach(ID,FullName,Email,Password,
+DateOfBirth,
+Gender,
+activityLevel
+)values('1713885713953-n','Coach Parallel','Email@mail.com','$12$lqEzaLYZTeeFUVPl/XGLsOAjLyf5i6H1R51PrbbI4P24VRggiKQQO','2024-04-10','M',3);
+
+
+INSERT INTO Member (ID, FullName, Activity, Gender, DateOfBirth, Height, Weight, GoalWeight, Email, Password, CoachID) 
+VALUES 
+('123456789', 'test user', 3, 'M', '1990-05-15', 175.5, 80.0, 75.0, 'test@example.com', '$12$lqEzaLYZTeeFUVPl/XGLsOAjLyf5i6H1R51PrbbI4P24VRggiKQQO', '1713885713953-n');
+
+
+INSERT INTO gainMuscle (MemberID, CoachID) VALUES ('123456789', '1713885713953-n');
+select * from Coach;
+SELECT * FROM Member;
 
 
 
-create role Manager;
-#create role memberSupervisor;
+create role coach;
+create role reg_Mem;
+#create role prem_Mem;
 
 grant insert, select, update, delete on fitnessapp.* to 'coach';
 grant update on fitnessapp.* to 'reg_Mem';
@@ -182,10 +149,12 @@ grant 'coach' to 'coach1'@'localhost';
 grant 'coach' to 'coach2'@'localhost';
 grant 'coach' to 'coach3'@'localhost';
 
-show grants for 'Manager';
-show grants for 'memberSupervisor';
+show grants for 'coach';
+show grants for 'reg_Mem';
+show grants for 'prem_Mem';
 
 show grants for 'coach2'@'localhost';
 
 
 select current_role();
+
