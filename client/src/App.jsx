@@ -6,6 +6,7 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import Profile from "./pages/profile/ProfilePage.jsx"; 
 import Layout from "./components/Layout.jsx";
 import './App.css'; 
+import Coachprofile from "./pages/profile/Coachprofile.jsx";
 import CoachDashboard from "./pages/dashboardpage/CoachDashboard.jsx";
 import Home from './pages/Home.jsx'; 
 import QuizIntro from './components/QuizIntro';
@@ -28,6 +29,7 @@ function App() {
 
       {/* Private Routes within PrivateRoute for authentication check */}
       <Route element={<PrivateRoute />}>
+        <Route path="/coach/profile/:ID" element={<Coachprofile />} />
         <Route path="/coach/dashboard/:ID" element={<CoachDashboard />} />
         <Route path="/dashboard/:ID" element={<Dashboard />} />
         <Route path="/profile/:ID" element={<Profile />} />

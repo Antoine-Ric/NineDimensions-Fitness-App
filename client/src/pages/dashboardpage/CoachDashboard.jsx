@@ -130,7 +130,7 @@ const CoachDashboard = () => {
     }
   };
   const onProfileClick = () => {
-    navigate(`/profile/${ID}`);
+    navigate(`/coach/profile/${ID}`);
     console.log(`$profile/${ID}`);
   };
 

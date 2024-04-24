@@ -9,9 +9,11 @@ const ProfilePage = () => {
 
   const [userProfile, setUserProfile] = useState({
     Firstname: "",
+    Lastname: "",
     Age: "",
-    goals: "",
+    birthday:"",
     Weight: "",
+    Height: "",
   });
 
   const [coachProfile, setCoachProfile] = useState({
@@ -31,6 +33,7 @@ const ProfilePage = () => {
         console.log("my userrr", data);
         if (data && data.user) {
           setUserProfile(data.user);
+          console.log("userProfile", userProfile.Age);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -70,7 +73,6 @@ const ProfilePage = () => {
 
   const handleDeleteAccount = () => {
     console.log("Deleting account...");
-    // Implement account deletion functionality here, with confirmation
   };
 
   const backClick = () => {
@@ -84,6 +86,16 @@ const ProfilePage = () => {
       </button>
       <h2>Edit Profile</h2>
       <form onSubmit={handleSubmit}>
+        
+        <label>
+          First Name:
+          <input
+            type="text"
+            value={userProfile.Email}
+            placeholder={userProfile.Email}
+            onChange={handleChange}
+          />
+        </label>
         <label>
           First Name:
           <input
@@ -94,17 +106,27 @@ const ProfilePage = () => {
           />
         </label>
         <label>
+          Last Name:
+          <input
+            type="text"
+            value={userProfile.Lastname}
+            placeholder={userProfile.Lastname}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
           Birthday:
           <input
             type="date"
-            value={userProfile.age}
+            value={userProfile.birthday}
             onChange={handleChange}
+            placeholder={userProfile.birthday}
           />
         </label>
         <label>
           Weight:
           <input
-          type="number"
+            type="number"
             name="Weight"
             value={userProfile.Weight}
             onChange={handleChange}
@@ -118,7 +140,7 @@ const ProfilePage = () => {
         <strong>Name:</strong>
       </div>
       <div>
-        <strong>Expertise:</strong> 
+        <strong>Expertise:</strong>
       </div>
 
       {/* Log Out and Delete Account Buttons */}
