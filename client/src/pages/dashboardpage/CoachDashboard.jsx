@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams,useNavigate } from "react-router-dom";
-import "./coachdash.css"; // Ensure your CSS handles layout and styles properly.
+import { useParams, useNavigate } from "react-router-dom";
+import "./coachdash.css";
 
 const CoachDashboard = () => {
   const { ID } = useParams();
@@ -8,35 +8,56 @@ const CoachDashboard = () => {
   const [trainees, setTrainees] = useState([]);
   const [selectedTrainee, setSelectedTrainee] = useState(null);
   const [assignments, setAssignments] = useState({});
-
-  const foods = [
-    { id: 1, name: "Chicken Breast" },
-    { id: 2, name: "Salmon Fillet" },
-    { id: 3, name: "Quinoa" },
-    { id: 4, name: "Green Salad" },
-    { id: 5, name: "Protein Shake" },
-  ];
-
-  const exercises = [
-    { id: 1, name: "Push-ups" },
-    { id: 2, name: "Squats" },
-    { id: 3, name: "Deadlifts" },
-    { id: 4, name: "Bench Press" },
-    { id: 5, name: "Pull-ups" },
-  ];
+  const [exercises, setExercises] = useState([]);
+  const [foods, setFoods] = useState([]);
 
   useEffect(() => {
     const fetchTrainees = async () => {
-      const response = await fetch(`/api/coach/${ID}/trainees`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch trainees");
+      try {
+        const response = await fetch(`/api/coach/${ID}/trainees`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch trainees");
+        }
+        const data = await response.json();
+        setTrainees(data);
+        initializeAssignments(data);
+      } catch (error) {
+        console.error("Error fetching trainees:", error);
       }
-      const data = await response.json();
-      setTrainees(data);
-      initializeAssignments(data);
     };
-
     fetchTrainees();
+
+    // Fetch exercises data
+    const fetchExercises = async () => {
+      try {
+        const response = await fetch("/api/exercises");
+        if (!response.ok) {
+          throw new Error("Failed to fetch exercises");
+        }
+        const data = await response.json();
+        setExercises(data);
+        console.log("exercises", data);
+      } catch (error) {
+        console.error("Error fetching exercises:", error);
+      }
+    };
+    fetchExercises();
+
+    // Fetch foods data
+    const fetchFoods = async () => {
+      try {
+        const response = await fetch("/api/foods");
+        if (!response.ok) {
+          throw new Error("Failed to fetch foods");
+        }
+        const data = await response.json();
+        setFoods(data);
+        console.log("foods", data);
+      } catch (error) {
+        console.error("Error fetching foods:", error);
+      }
+    };
+    fetchFoods();
   }, [ID]);
 
   const initializeAssignments = (trainees) => {
@@ -50,11 +71,11 @@ const CoachDashboard = () => {
     setAssignments(initialAssignments);
   };
 
-  const handleSelectTrainee = (trainee,alreadyBeingselected) => {
-    if(alreadyBeingselected){
+  const handleSelectTrainee = (trainee, alreadyBeingselected) => {
+    if (alreadyBeingselected) {
       setSelectedTrainee(null);
       return;
-    }   
+    }
     setSelectedTrainee(trainee);
   };
 
@@ -108,11 +129,10 @@ const CoachDashboard = () => {
       console.error("Error logging out:", error);
     }
   };
- const onProfileClick = () => {
-   navigate(`/profile/${ID}`);
-   console.log(`$profile/${ID}`)
- };
-
+  const onProfileClick = () => {
+    navigate(`/profile/${ID}`);
+    console.log(`$profile/${ID}`);
+  };
 
   return (
     <div className="CoachDashboard">
@@ -150,8 +170,8 @@ const CoachDashboard = () => {
               >
                 <option value="">Select {mealType}</option>
                 {foods.map((food) => (
-                  <option key={food.id} value={food.id}>
-                    {food.name}
+                  <option key={food.FoodID} value={food.FoodID}>
+                    {food.Name}
                   </option>
                 ))}
               </select>
@@ -176,7 +196,7 @@ const CoachDashboard = () => {
                 )
               }
             >
-              {exercise.name}
+              {exercise.Name}
             </button>
           ))}
           <br />

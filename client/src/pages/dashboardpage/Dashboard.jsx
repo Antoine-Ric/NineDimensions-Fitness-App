@@ -10,6 +10,9 @@ const Dashboard = () => {
   const { ID } = useParams();
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+    const [coaches, setCoaches] = useState([]);
+    const [error, setError] = useState(null);
+
 
   const handleLogoutClick = async () => {
     try {
@@ -43,6 +46,28 @@ const Dashboard = () => {
 
     fetchData();
   }, [ID]);
+
+
+   useEffect(() => {
+     const fetchCoaches = async () => {
+       try {
+         const response = await fetch("/api/coaches/names");
+         if (!response.ok) {
+           console.log("Response:", response);
+           throw new Error("Failed to fetch coach names");
+         }
+         const names = await response.json();
+         setCoaches(names);
+         console.log("Coach names:", names);
+       } catch (error) {
+         console.error("Error fetching coach names:", error);
+         setError(error.message);
+       }
+     };
+
+     fetchCoaches();
+   }, []);
+
 
   if (!user) {
     return <div>Loadingg..</div>;
@@ -79,6 +104,12 @@ const Dashboard = () => {
           </div>
           <button>Goals</button>
           <button onClick={handleLogoutClick}>LOG OUT</button>
+          <button onClick={() => {}}>Choose Coach</button>
+          <ul>
+            {coaches.map((name, index) => (
+              <li key={index}>{name.FullName}</li>
+            ))}
+          </ul>
         </div>
         <div className="main">
           <DashFood />

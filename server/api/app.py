@@ -41,41 +41,37 @@ def login():
     try:
         conn = mysql.connection
         member = request.get_json()
-        Email, password,isCoach = member.get("Email"), member.get("Password"),member.get("isCoach")
+        Email, password, isCoach = member.get("Email"), member.get("Password"), member.get("isCoach")
         cursor = conn.cursor()
-        if isCoach == 1:
-            table_name = "Coach"
-        elif isCoach == 0:
-            table_name = "Member"
+        table_name = "Coach" if isCoach else "Member"
         cursor.execute(
-            f"SELECT * FROM {table_name} WHERE Email = %s", (Email,))
+            "SELECT * FROM {} WHERE Email = %s".format(table_name), (Email,))
         verifiedUser = cursor.fetchone()
+        if verifiedUser is None:
+            return jsonify({'status_code': 404, 'message': 'User not found'}), 404
+
+        hashed_password_from_db = verifiedUser.get("Password").encode('utf-8')
+        if checkpw(password.encode('utf-8'), hashed_password_from_db):
+            verifiedName = verifiedUser.get("FullName").split(' ')[0]
+            verifiedID = verifiedUser.get("ID")
+            verifiedEmail = verifiedUser.get("Email")
+            session['ID'] = verifiedID
+            session['Email'] = verifiedEmail
+            return jsonify({
+                'status_code': 200,
+                'FirstName': verifiedName,
+                'message': 'Login Successful',
+                'ID': verifiedID
+            }), 200
+        else:
+            return jsonify({
+                'status_code': 401,
+                'message': 'Invalid Credentials'
+            }), 401
     except Exception as e:
         conn.rollback()
+        print("my exception",e  )
         return jsonify({'status_code': 500, 'message': f'Error: {str(e)}'}), 500
-
-    if verifiedUser is None:
-        return jsonify({'status_code': 404, 'message': 'User not found'}), 404
-
-    verifiedPassword = verifiedUser.get("Password")
-    verifiedName = verifiedUser.get("FullName").split(' ')[0]
-    verifiedID = verifiedUser.get("ID")
-    verifiedEmail = verifiedUser.get("Email")
-
-    if verifiedPassword == password:
-        session['ID'] = verifiedID
-        session['Email'] = verifiedEmail
-        return jsonify({
-            'status_code': 200,
-            'FirstName': verifiedName,
-            'message': 'Login Successful',
-            'ID': verifiedID
-        }), 200
-    else:
-        return jsonify({
-            'status_code': 401,
-            'message': 'Invalid Credentials'
-        }), 401
 
 
 @app.route('/api/account/logout', methods=['GET'])
@@ -110,17 +106,13 @@ def getInfo(USERID):
             dob = user_info['DateOfBirth']
             today = datetime.date.today()
 
-            # Calculate age
             age = today.year - dob.year - \
                 ((today.month, today.day) < (dob.month, dob.day))
 
-            # Splitting FullName into Firstname and Lastname
             names = user_info['FullName'].split(' ')
             firstname = names[0]
-            # Handling cases where there might be no lastname
             lastname = names[1] if len(names) > 1 else ''
 
-            # Preparing response
             return jsonify({
                 'status_code': 200,
                 'user': {
@@ -148,18 +140,19 @@ def signup():
         conn = mysql.connection
         new_member = request.get_json()
 
-        # Extracting values from the JSON payload
         email = new_member.get("email")
         password = new_member.get("password")
         fullname = new_member.get("fullname")
-        userName = new_member.get("userName")
         selectedGoals = new_member.get("selectedGoals")
         selectedActivityLevel = new_member.get("selectedActivityLevel")
-        gender = new_member.get("setGender")
+        selectedSex = new_member.get("gender")
         birthDate = new_member.get("birthDate")
-        weight = new_member.get("weight")
-        height = new_member.get("height")
+        weight = float(new_member.get("weight"))
+        height = float(new_member.get("height"))
+        goalWeight = float(new_member.get("goalWeight"))
+        selectedgoals = new_member.get("selectedGoals")
         goalWeight = new_member.get("goalWeight")
+
 
         if gender == "Male":
             gender = 'M'
@@ -178,20 +171,20 @@ def signup():
         if existing_user:
             return jsonify({'status_code': 409, 'message': 'Email already exists'}), 409
 
-        # If email is not already in use, proceed with registration
         hashed_password = hashpw(password.encode('utf-8'), gensalt())
 
-        cursor.execute("INSERT INTO Member (ID, FullName, Email, Password, UserName, SelectedGoals, SelectedActivityLevel, Gender, DateOfBirth, Weight, Height, GoalWeight) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                       (new_member_id, fullname, email, hashed_password, userName, selectedGoals, selectedActivityLevel, gender, birthDate, weight, height, goalWeight))
+        # Insert the new member data into the Member table
+        cursor.execute("INSERT INTO Member (ID, FullName, Gender, DateOfBirth, Height, Weight, GoalWeight, Email, Password) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                       (new_member_id, fullname, gender, birthDate, height, weight, goalWeight, email, hashed_password))
         conn.commit()
     except Exception as e:
         conn.rollback()
-        return jsonify({'status_code': 500, 'message': f'Error: {str(e)}'}), 500
+        print("my exception",e)
+        return jsonify({'status_code': 500, 'message': str(e)}), 500
 
     session['ID'] = new_member_id
     session['Email'] = email
     return jsonify({'status_code': 201, 'message': 'User registered successfully', 'ID': new_member_id}), 201
-
 
 @app.route('/api/coach/signup', methods=['POST'])
 def coach_signup():
@@ -201,17 +194,11 @@ def coach_signup():
 
         # Extracting values from the JSON payload
         full_name = coach_data.get("fullName")
-        agender = coach_data.get("gender") 
+        gender = coach_data.get("gender")[0]
         activity_level = coach_data.get("activityLevel")
         birth_date = coach_data.get("birthDate")
         email = coach_data.get("email")
         password = coach_data.get("password")
-        gender = ""
-
-        if agender == "Male":
-            gender = 'M'
-        elif agender == "Female":
-            gender = 'F'
 
 
 
@@ -255,6 +242,21 @@ def coach_signup():
     return jsonify({'status_code': 201, 'message': 'Coach registered successfully', 'ID': new_coach_id}), 201
 
 
+@app.route('/api/coaches/names', methods=['GET'])
+def get_coach_names():
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT FullName FROM Coach")
+        result = cursor.fetchall()
+
+        
+
+        return jsonify(result), 200
+    except Exception as e:
+        print("Exception:", e)
+        return jsonify({'message': 'Error retrieving coach names', 'error': str(e)}), 500
+
 def generate_unique_id():
     timestamp = int(time.time() * 1000)
     random_number = random.randint(0, 9999) 
@@ -273,7 +275,6 @@ def getTrainees(coachID):
     cursor = conn.cursor()
 
     try:
-        # Execute the SQL query to fetch trainees under this coach
         cursor.execute(
             "SELECT FullName, Email, DateOfBirth FROM Member WHERE CoachID = %s", (coachID,))
         trainees = cursor.fetchall()
@@ -301,6 +302,36 @@ def getTrainees(coachID):
         # Rollback in case of exception
         conn.rollback()
         return jsonify({'status_code': 500, 'message': f'Error fetching trainees: {str(e)}'}), 500
+    
 
+
+
+@app.route('/api/exercises', methods=['GET'])
+def get_exercises():
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Exercises")
+        exercises = cursor.fetchall()
+        return jsonify(exercises), 200
+    except Exception as e:
+        return jsonify({'status_code': 500, 'message': f'Error fetching exercises: {str(e)}'}), 500
+    finally:
+        cursor.close()
+
+
+@app.route('/api/foods', methods=['GET'])
+def get_foods():
+    try:
+        conn = mysql.connection
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM FoodItems")
+        foods = cursor.fetchall()
+        return jsonify(foods), 200
+    except Exception as e:
+        return jsonify({'status_code': 500, 'message': f'Error fetching foods: {str(e)}'}), 500
+    finally:
+        cursor.close()
+        
 if __name__ == "__main__":
     app.run(debug=True)

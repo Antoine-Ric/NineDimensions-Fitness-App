@@ -1,21 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./profile.css";
-
+import { useParams } from "react-router-dom";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
+  const { ID } = useParams();
 
   const [userProfile, setUserProfile] = useState({
-    name: "Jane Doe",
-    age: 28,
-    goals: "Complete a triathlon",
+    Firstname: "",
+    Age: "",
+    goals: "",
+    Weight: "",
   });
 
-  const coachProfile = {
-    name: "Coach Williams",
-    expertise: "Triathlon Training",
-  };
+  const [coachProfile, setCoachProfile] = useState({
+    name: "",
+    expertise: "",
+  });
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await fetch(`/api/account/info/${ID}`);
+        if (!response.ok) {
+          console.log("response", response);
+          throw new Error("Failed to fetch");
+        }
+        const data = await response.json();
+        console.log("my userrr", data);
+        if (data && data.user) {
+          setUserProfile(data.user);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,20 +74,22 @@ const ProfilePage = () => {
   };
 
   const backClick = () => {
-    navigate(`/dashboard/M001`);
-  }
+    navigate(`/dashboard/${ID}`);
+  };
 
   return (
     <div className="profile-page">
-      <button className="backbutton" onClick={backClick}>Back to dashboard</button>
+      <button className="backbutton" onClick={backClick}>
+        Back to dashboard
+      </button>
       <h2>Edit Profile</h2>
       <form onSubmit={handleSubmit}>
         <label>
           First Name:
           <input
             type="text"
-            name="name"
-            value={userProfile.name}
+            value={userProfile.Firstname}
+            placeholder={userProfile.Firstname}
             onChange={handleChange}
           />
         </label>
@@ -72,18 +97,17 @@ const ProfilePage = () => {
           Birthday:
           <input
             type="date"
-            name="age"
             value={userProfile.age}
             onChange={handleChange}
           />
         </label>
         <label>
-          Goals:
-          <textarea
-            name="goals"
-            value={userProfile.goals}
+          Weight:
+          <input
+          type="number"
+            name="Weight"
+            value={userProfile.Weight}
             onChange={handleChange}
-            style={{ width: "100%", height: "150px" }} // Adjust width and height as needed
           />
         </label>
         <button type="submit">Save Changes</button>
@@ -91,10 +115,10 @@ const ProfilePage = () => {
 
       <h3>Coach Info</h3>
       <div>
-        <strong>Name:</strong> {coachProfile.name}
+        <strong>Name:</strong>
       </div>
       <div>
-        <strong>Expertise:</strong> {coachProfile.expertise}
+        <strong>Expertise:</strong> 
       </div>
 
       {/* Log Out and Delete Account Buttons */}
