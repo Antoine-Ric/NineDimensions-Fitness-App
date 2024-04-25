@@ -8,6 +8,7 @@
 # Libraries 
 - Vue + Vite
 - React
+- React-Router-dom
 - MySQL
 - Python Libraries (Flask, BCrypt, DotEnv, Built-In Libraries)
 - npm
@@ -27,7 +28,7 @@ Our Fitness App will offer a comprehensive solution for users to track their fit
 # Individual Contribution
 
 - **Rood Vilmont**
-- TBA
+- Did authentication
 - **Sebastian Metellus**
 - Worked on the front-end side of the project by creating the structure for the pages and components from the NavBar to the Hero section. I also implemented a color scheme and design choices for the website. This also allowed me to work on the quiz component, creating a comprehensive experience for the user/coach to submit their personal preferences.
 - **Jeremiah Daniels**
