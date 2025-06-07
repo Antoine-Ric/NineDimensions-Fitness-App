@@ -169,7 +169,3 @@ npm run dev
 This project is for educational purposes. See [LICENSE](LICENSE) if present.
 
 ---
-
-## Contact
-
-For questions or contributions, please open an issue or contact the team via GitHub.
