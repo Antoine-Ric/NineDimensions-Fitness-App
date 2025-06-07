@@ -36,3 +36,4 @@ Our Fitness App will offer a comprehensive solution for users to track their fit
 - **Ricardi Antoine**
 - Worked on integrating a sidebar for the coach screen with personal information on the coach and links towards different pages for the coach's assigned goals, workouts, and more. Assisted in template and desinging the format for how the program will look as well as functionality. 
 
+# BookMinto-Textbook-Marketplace
