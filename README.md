@@ -1,39 +1,175 @@
-# NineDimensions: A Fitness Application
-# Members
-- Rood Vilmont
-- Sebastian Metellus
-- Jeremiah Daniels
-- Ricardi Antoine
+# NineDimensions Fitness Application
 
-# Libraries 
-- Vue + Vite
-- React
-- React-Router-dom
-- MySQL
-- Python Libraries (Flask, BCrypt, DotEnv, Built-In Libraries)
-- npm
+## Overview
 
-# Other Resources
-- MySQL WorkBench
-- API Ninja
+**NineDimensions** is a full-stack fitness application designed to help users track their health, nutrition, and exercise, while also providing a platform for coaches to manage and guide their trainees. The app offers personalized plans based on user goals (lose weight, gain muscle, manage stress, etc.), and features both user and coach interfaces for a holistic fitness experience.
 
-# Extra Features
-- Added quiz component for the Coach, to provide more accurate matching toward the consumer
-- Added more intricate metrics such as rep/sets for exercises and calories for food in the descriptions for the user.
+---
 
-# Project Overview
+## Features
 
-Our Fitness App will offer a comprehensive solution for users to track their fitness progress and access personalized plans tailored to their goals, such as building muscle, losing weight, gaining weight, or maintaining overall fitness. The application will feature a user and trainer interface, providing a holistic fitness experience. Our app will also give user custom exercises based on their selected goal and food tailored to their exercise mission of personal growth.
+- **User Authentication:** Secure login/signup for both members and coaches using hashed passwords.
+- **Personalized Dashboard:** Users can view and manage their profile, daily meals, and exercise routines.
+- **Coach Dashboard:** Coaches can view their trainees, assign meals and exercises, and manage their coaching profile.
+- **Food & Exercise Database:** Pre-populated with a variety of foods and exercises, with calories and descriptions.
+- **Goal Tracking:** Users select goals and are matched with coaches specializing in those areas.
+- **Interactive Quizzes:** Onboarding quizzes for both users and coaches to personalize experience and matching.
+- **Responsive UI:** Built with React and styled for modern usability.
+- **RESTful API:** Flask backend serving JSON endpoints for all app data.
+- **Role-Based Access:** MySQL roles for coaches and members, with granular permissions.
+- **Session Management:** Secure session handling for authenticated routes.
+- **Cross-Origin Resource Sharing:** Enabled for seamless frontend-backend communication.
 
-# Individual Contribution
+---
 
-- **Rood Vilmont**
-- Did authentication
-- **Sebastian Metellus**
-- Worked on the front-end side of the project by creating the structure for the pages and components from the NavBar to the Hero section. I also implemented a color scheme and design choices for the website. This also allowed me to work on the quiz component, creating a comprehensive experience for the user/coach to submit their personal preferences.
-- **Jeremiah Daniels**
-- Worked on the back-end side of the project. Created the database schema to be replicated on different devices. Discover API Ninja for access to food nutrients and exercises. Created functions for the API's for implementation purposes to be used by other functions.
-- **Ricardi Antoine**
-- Worked on integrating a sidebar for the coach screen with personal information on the coach and links towards different pages for the coach's assigned goals, workouts, and more. Assisted in template and desinging the format for how the program will look as well as functionality. 
+## Technologies Used
 
-# BookMinto-Textbook-Marketplace
+### Frontend
+- **React** (with React Router)
+- **Vite** (for fast development and build)
+- **ESLint** (with React and hooks plugins)
+- **CSS Modules** and custom styles
+
+### Backend
+- **Python Flask** (REST API)
+- **Flask-MySQLdb** (MySQL integration)
+- **bcrypt** (password hashing)
+- **python-dotenv** (environment variable management)
+- **Flask-CORS** (CORS support)
+
+### Database
+- **MySQL** (schema for users, coaches, food, exercises, and role management)
+
+### DevOps & Tooling
+- **npm** (frontend package management)
+- **.env** (for secrets and configuration)
+- **VS Code** (recommended editor, with launch/debug configs)
+
+---
+
+## Project Structure
+
+```
+.
+├── app4521.py                # Example script for API integration
+├── setupDB.py                # Python script for DB setup/testing
+├── proj4521.sql              # MySQL schema and seed data
+├── server/
+│   └── api/
+│       └── app.py            # Flask backend API
+├── client/
+│   ├── src/
+│   │   ├── components/       # React components (NavBar, Dashboard, etc.)
+│   │   ├── pages/            # Page-level React components
+│   │   ├── styles/           # CSS files
+│   │   └── images/           # Static assets
+│   ├── package.json          # Frontend dependencies and scripts
+│   └── vite.config.js        # Vite config with API proxy
+└── .vscode/                  # Editor configs for C++/Python debugging
+```
+
+---
+
+## How It Works
+
+1. **User/Coach Signup:**  
+   - Users and coaches register via interactive quizzes.
+   - Passwords are hashed and stored securely.
+   - Users are matched with coaches based on selected goals.
+
+2. **Authentication & Session:**  
+   - Login endpoints validate credentials and create a session.
+   - Protected routes (dashboard, profile) require authentication.
+
+3. **Dashboard Experience:**  
+   - Users see their profile, assigned meals, and exercises.
+   - Coaches see a list of trainees and can assign meals/exercises.
+
+4. **Data Management:**  
+   - All data (users, coaches, foods, exercises) is stored in MySQL.
+   - RESTful API endpoints provide CRUD operations.
+
+5. **Frontend-Backend Communication:**  
+   - React frontend communicates with Flask backend via `/api` endpoints.
+   - Vite proxy ensures seamless local development.
+
+---
+
+## Setup & Installation
+
+### Prerequisites
+
+- Node.js & npm
+- Python 3.x
+- MySQL Server
+
+### 1. Clone the Repository
+
+```sh
+git clone https://github.com/COP4521-Health-Application/COP4521_Project.git
+cd COP4521_Project
+```
+
+### 2. Database Setup
+
+- Import the schema and seed data:
+
+```sh
+mysql -u <user> -p < proj4521.sql
+```
+
+- (Optional) Test DB connection:
+
+```sh
+python setupDB.py
+```
+
+### 3. Backend Setup
+
+```sh
+cd server/api
+pip install -r requirements.txt  # (create this if not present)
+# Set up .env file with your DB credentials and secret key
+python app.py
+```
+
+### 4. Frontend Setup
+
+```sh
+cd ../../client
+npm install
+npm run dev
+```
+
+- The app will be available at `http://localhost:5173` (frontend) and `http://localhost:5000` (backend API).
+
+---
+
+## Notable Engineering Details
+
+- **Security:** Passwords are hashed with bcrypt. Sessions are managed securely via Flask.
+- **Scalability:** Modular React components and RESTful API design.
+- **Extensibility:** Easy to add new goals, foods, exercises, or roles.
+- **Testing:** ESLint for code quality; backend and DB scripts for integration testing.
+- **API Integration:** Example scripts for fetching exercise/food data from external APIs.
+
+---
+
+## Contributors
+
+- Rood Vilmont (Authentication)
+- Sebastian Metellus (Frontend, UI/UX, Quiz)
+- Jeremiah Daniels (Backend, DB, API Integration)
+- Ricardi Antoine (Coach UI, Integration, Design)
+
+---
+
+## License
+
+This project is for educational purposes. See [LICENSE](LICENSE) if present.
+
+---
+
+## Contact
+
+For questions or contributions, please open an issue or contact the team via GitHub.
